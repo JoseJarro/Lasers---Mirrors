@@ -1,0 +1,137 @@
+@startuml
+
+class Juego{              
+
+
+-contadorTurnos : int
+-estado : bool
+
+
++cambiarNivel()
++verificarEstado()
+ 
+}
+
+class Nivel{
+
+-celdas : obj[] 
+-bloques : obj[]
+-emisor : obj
+-ovjetivos[]
+-nivel : obj[]
+
++crearNivel()
+-crearEmisor()
+-crearObjetivos()
+-crearCeldas()
+-crearBloques()
++pasarTurno()
+
+}
+
+class Emisor{
+
+-direccion : str
+-posicionx : int
+-posiciony : int
+
++emitirLaser()
+
+}
+
+class Objetivo{
+
+-posicionx : int
+-posiciony : int
+-estado : bool
+
++objetivoAlcanzado()
+
+}
+
+class Celda{
+
+-posicionx :int
+-posiciony : int
+-piso : bool
+
++esPiso()
+
+}
+
+interface Bloque{
+
+-posicionx : int
+-posiciony : int
+
+}
+
+
+class BloqueOpacoFijo{
+
++ comportamientoBloque()
+
+}
+
+
+class BloqueOpacoMovil{
+
++ moverBloque()
++ comportamientoBloque()
+
+}
+
+class BloqueEspejo{
+
++ moverBloque()
++ comportamientoBloque()
+
+}
+
+class BloqueVidrio{
+
++ moverBloque()
++ comportamientoBloque()
+
+}
+
+class BloqueCristal{
+
++ moverBloque()
++ comportamientoBloque()
+
+}
+
+interface elemento{
+
+-posicionx
+-posiciony
+}
+
+interface BloqueMovil{
++mover()
+}
+
+Juego "1" *--> "1" Nivel
+
+Nivel "1" *--> "n" elemento
+
+Nivel "1" *--> "n" Bloque
+elemento "1" ..|> "n" Celda
+elemento "1" ..|> "1" Emisor
+elemento "1" ..|> "n" Objetivo
+
+BloqueOpacoFijo ---|> Bloque
+BloqueOpacoMovil ---|> Bloque
+BloqueEspejo ---|> Bloque
+BloqueVidrio ---|> Bloque
+BloqueCristal ---|> Bloque
+
+
+BloqueOpacoMovil ..|> BloqueMovil
+BloqueEspejo ..|> BloqueMovil
+BloqueVidrio ..|> BloqueMovil
+BloqueCristal ..|> BloqueMovil
+
+
+@enduml

@@ -12,7 +12,7 @@ class Juego{
  
 }
 
-class Nivel{
+class lasers.Nivel{
 
 -celdas : obj[] 
 -bloques : obj[]
@@ -29,7 +29,7 @@ class Nivel{
 
 }
 
-class Emisor{
+class lasers.Emisor{
 
 -direccion : str
 -posicionx : int
@@ -39,7 +39,7 @@ class Emisor{
 
 }
 
-class Objetivo{
+class lasers.Objetivo{
 
 -posicionx : int
 -posiciony : int
@@ -112,14 +112,14 @@ interface BloqueMovil{
 +mover()
 }
 
-Juego "1" *--> "1" Nivel
+Juego "1" *--> "1" lasers.Nivel
 
-Nivel "1" *--> "n" elemento
+lasers.Nivel "1" *--> "n" elemento
 
-Nivel "1" *--> "n" Bloque
-elemento "1" ..|> "n" Celda
-elemento "1" ..|> "1" Emisor
-elemento "1" ..|> "n" Objetivo
+lasers.Nivel "1" *--> "n" Bloque
+elemento "1" <|-- "n" Celda
+elemento "1" <|-- "n" lasers.Emisor
+elemento "1" <|-- "n" lasers.Objetivo
 
 BloqueOpacoFijo ---|> Bloque
 BloqueOpacoMovil ---|> Bloque

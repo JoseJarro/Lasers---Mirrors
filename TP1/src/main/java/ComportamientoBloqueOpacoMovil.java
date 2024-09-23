@@ -1,0 +1,7 @@
+public class ComportamientoBloqueOpacoMovil implements ComportamientoBloque{
+
+    @Override
+    public void comportamientoBloque() {
+
+    }
+}

@@ -1,3 +1,5 @@
+package lasers;
+
 public class ComportamientoBloqueVidrio implements ComportamientoBloque{
 
 

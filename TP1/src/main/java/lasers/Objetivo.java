@@ -1,18 +1,19 @@
 package lasers;
 
-import java.util.ArrayList;
+import org.jgrapht.graph.SimpleGraph;
 
-public class Objetivo extends Coordenada{
+public class Objetivo {
     private Boolean estado;
+    private Coordenada posicion;
 
     public Objetivo(int x, int y) {
-        super(x, y);
+        this.posicion = new Coordenada(x, y);
         this.estado = false;
     }
 
-    public Boolean objetivoAlcanzado(ArrayList<Emisor> emisores) {
-        for (Emisor emisor : emisores) {
-            for (Emisor laser : emisor.)
+    public Boolean objetivoAlcanzado(Nivel nivel) {
+        for (Emisor emisor : nivel.getEmisores()) {
+            SimpleGraph<Vector2D, null> laser = emisor.emitirLaser(nivel);
         }
         return true;
     }

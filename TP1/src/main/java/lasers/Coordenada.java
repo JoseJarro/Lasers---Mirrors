@@ -14,6 +14,9 @@ public class Coordenada {
     public int getPosX() {
         return this.posX;
     }
+
+    public void setPosX(int posX) { this.posX = posX; }
+    public void setPosY(int posY) { this.posY = posY; }
     @Override
     public String toString() {
         return String.format("(%d,%d)", this.posX, this.posY);

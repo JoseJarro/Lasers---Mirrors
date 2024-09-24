@@ -1,3 +1,5 @@
+package lasers;
+
 public class Bloque {
 
     private int posicionx;

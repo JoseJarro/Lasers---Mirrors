@@ -1,3 +1,5 @@
+package lasers;
+
 public class Juego {
     int NIVELINICIAL = 1;
     private boolean estado;

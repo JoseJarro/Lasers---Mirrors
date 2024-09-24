@@ -1,5 +1,8 @@
-import java.io.*;
+package lasers;
 
+import java.io.*;
+//CONSIDERAR ELIMINAR YA QUE LOS CAMBIOS SE TRASLADARON A LA CLASE NIVEL.
+//UN NIVEL SE CARGARA CUANDO SE CREE UNA INSTANCIA DE NIVEL.
 
 public class Archivo {
     public static void main (String [] args) throws IOException{
@@ -45,7 +48,6 @@ public class Archivo {
 
     public int hallarAltoNivel() {
         int altoNivel = 0;
-
 
         try {
             FileReader lector = null;

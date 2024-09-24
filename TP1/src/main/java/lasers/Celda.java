@@ -1,17 +1,12 @@
 package lasers;
 
-public class Celda extends Coordenada{
-    private final Boolean piso;
+public class Celda {
     private Boolean ocupado;
+    private final Coordenada posicion;
 
-    public Celda(int x, int y, boolean piso, boolean ocupado) {
-        super(x, y);
-        this.piso = piso;
+    public Celda(int x, int y, boolean ocupado) {
+        this.posicion = new Coordenada(x, y);
         this.ocupado = ocupado;
-    }
-
-    public Boolean getPiso() {
-        return this.piso;
     }
 
     public Boolean getOcupado() {
@@ -28,6 +23,6 @@ public class Celda extends Coordenada{
 
     @Override
     public String toString() {
-        return super.toString() + " esPiso: " + this.piso;
+        return this.posicion + ", Ocupado: " + this.ocupado;
     }
 }

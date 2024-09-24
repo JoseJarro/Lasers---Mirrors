@@ -1,3 +1,5 @@
+package lasers;
+
 public class ComportamientoBloqueOpacoFijo implements ComportamientoBloque {
 
     @Override

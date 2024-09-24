@@ -1,3 +1,5 @@
+package lasers;
+
 public enum TipoBloque {
 
     BLOQUE_ESPEJO(new ComportamientoBloqueEspejo(), 'R', false),

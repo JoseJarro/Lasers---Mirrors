@@ -1,6 +1,6 @@
 @startuml
 
-class Juego{              
+class lasers.Juego{
 
 
 -contadorTurnos : int
@@ -9,12 +9,12 @@ class Juego{
 
 +cambiarNivel()
 +verificarEstado()
- 
+
 }
 
 class lasers.Nivel{
 
--celdas : obj[] 
+-celdas : obj[]
 -bloques : obj[]
 -emisor : obj
 -ovjetivos[]
@@ -59,7 +59,7 @@ class Celda{
 
 }
 
-interface Bloque{
+interface lasers.Bloque{
 
 -posicionx : int
 -posiciony : int
@@ -112,20 +112,20 @@ interface BloqueMovil{
 +mover()
 }
 
-Juego "1" *--> "1" lasers.Nivel
+lasers.Juego "1" *--> "1" lasers.Nivel
 
 lasers.Nivel "1" *--> "n" elemento
 
-lasers.Nivel "1" *--> "n" Bloque
+lasers.Nivel "1" *--> "n" lasers.Bloque
 elemento "1" <|-- "n" Celda
 elemento "1" <|-- "n" lasers.Emisor
 elemento "1" <|-- "n" lasers.Objetivo
 
-BloqueOpacoFijo ---|> Bloque
-BloqueOpacoMovil ---|> Bloque
-BloqueEspejo ---|> Bloque
-BloqueVidrio ---|> Bloque
-BloqueCristal ---|> Bloque
+BloqueOpacoFijo ---|> lasers.Bloque
+BloqueOpacoMovil ---|> lasers.Bloque
+BloqueEspejo ---|> lasers.Bloque
+BloqueVidrio ---|> lasers.Bloque
+BloqueCristal ---|> lasers.Bloque
 
 
 BloqueOpacoMovil ..|> BloqueMovil

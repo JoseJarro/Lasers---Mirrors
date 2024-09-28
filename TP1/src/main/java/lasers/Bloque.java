@@ -11,7 +11,6 @@ public class Bloque {
         this.posicionx = posicionx;
         this.posiciony = posiciony;
         this.fijo = fijo;
-        this.comportamientoBloque= comportamientoBloque;
 
     }
 
@@ -23,9 +22,44 @@ public class Bloque {
 
     }
 
-    public void ejecutarComportamientoBloque(){
-        comportamientoBloque.comportamientoBloque();
-
+    public Vector2D[] comportamientosBloque(Vector2D padre){
+        int cara = 0;
+        if (padre.getPosicion().getPosY() == posiciony){
+            if (padre.getPosicion().getPosX() == posicionx -1) {
+                cara = 1;
+            }else if (padre.getPosicion().getPosX() == posicionx +1) {
+                cara = 3;
+            }
+        }
+        if (padre.getPosicion().getPosX() == posicionx){
+            if (padre.getPosicion().getPosX() == posiciony -1){
+                cara = 4;
+            }else if (padre.getPosicion().getPosX() == posiciony +1) {
+                cara = 2;
+            }
+        }
+        return  comportamientoBloque.comportamientoBloque(padre,cara);
     }
 
+
+    public boolean tocaLaser(Vector2D padre) {
+        boolean toco = false;
+        if (padre.getPosicion().getPosY() == posiciony){
+            if (padre.getPosicion().getPosX() == posicionx -1) {
+                toco = true;
+            }else if (padre.getPosicion().getPosX() == posicionx +1) {
+                toco = true;
+            }
+        }
+        if (padre.getPosicion().getPosX() == posicionx){
+            if (padre.getPosicion().getPosX() == posiciony -1){
+                toco = true;
+            }else if (padre.getPosicion().getPosX() == posiciony +1) {
+                toco = true;
+            }
+        }
+
+        return toco;
+
+    }
 }

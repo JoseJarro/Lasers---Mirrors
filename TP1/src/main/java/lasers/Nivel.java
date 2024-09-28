@@ -51,6 +51,8 @@ public class Nivel {
     }
 
     private void crearTablero(int x, int y, char c) {
+        if (c == ' ') {
+            return;
         if (c == '.') {
             this.celdas.add(new Celda(x, y, false));
             return;
@@ -113,3 +115,8 @@ public class Nivel {
     }
 
 }
+
+    public ArrayList<Bloque> getBloques() {
+        return bloques;
+    }
+    }

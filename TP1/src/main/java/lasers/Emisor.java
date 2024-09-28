@@ -27,7 +27,7 @@ public class Emisor extends Vector2D{
             if (bloque.tocaLaser(padre)) {
                 //posiblesCaminos porque existen bloques que devuelven muchas direcciones.
                 //Retorna un sola coordenada (null, null) si el laser es absorbido por un bloque.
-                Vector2D[] posiblesCaminos = bloque.comportamientoBloque(padre);
+                Vector2D[] posiblesCaminos = bloque.comportamientosBloque(padre);
                 for (Vector2D camino : posiblesCaminos) {
                     grafoLaser.addVertex(camino);
                     grafoLaser.addEdge(padre, camino);

@@ -5,12 +5,12 @@ import java.io.*;
 //UN NIVEL SE CARGARA CUANDO SE CREE UNA INSTANCIA DE NIVEL.
 
 public class Archivo {
-    public static void main (String [] args) throws IOException{
-        Archivo arcvhivo = new Archivo();
-        arcvhivo.hallarDimenciones();
+   // public static void main (String [] args) throws IOException{
+     //   Archivo arcvhivo = new Archivo();
+      //  arcvhivo.hallarDimenciones();
 
 
-}
+//}
 
     public char hallarCaracter(int coordenadax, int coorednaday){
         char caracter = 0;

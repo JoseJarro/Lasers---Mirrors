@@ -3,7 +3,7 @@ package lasers;
 public class ComportamientoBloqueOpacoFijo implements ComportamientoBloque {
 
     @Override
-    public void comportamientoBloque() {
-
+    public Vector2D[] comportamientoBloque(Vector2D padre , int cara) {
+        return null;
     }
 }

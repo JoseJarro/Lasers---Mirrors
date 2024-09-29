@@ -8,31 +8,31 @@ public class ComportamientoBloqueVidrio implements ComportamientoBloque{
     public Vector2D[] comportamientoBloque(Vector2D padre,int cara) {
         String direccion ="";
         if (cara == 1){
-            if (padre.getDireccion().equals("NO")){
-                direccion = "NE";
+            if (padre.getDireccion().equals("NE")){
+                direccion = "NW";
             }else if (padre.getDireccion().equals("SE")){
-                direccion = "SO";
+                direccion = "SW";
             }
         }
         if (cara == 2){
-            if (padre.getDireccion().equals("SO")){
-                direccion = "NO";
-            }else if (padre.getDireccion().equals("SE")){
-                direccion = "NE";
+            if (padre.getDireccion().equals("NE")){
+                direccion = "SE";
+            }else if (padre.getDireccion().equals("NW")){
+                direccion = "SW";
             }
         }
         if (cara == 3){
-            if (padre.getDireccion().equals("SE")){
-                direccion = "SO";
-            }else if (padre.getDireccion().equals("NE")){
-                direccion = "NO";
+            if (padre.getDireccion().equals("SW")){
+                direccion = "SE";
+            }else if (padre.getDireccion().equals("NW")){
+                direccion = "NE";
             }
         }
         if (cara == 4){
-            if (padre.getDireccion().equals("NO")){
-                direccion = "SO";
-            }else if (padre.getDireccion().equals("NE")){
-                direccion = "SE";
+            if (padre.getDireccion().equals("SE")){
+                direccion = "NE";
+            }else if (padre.getDireccion().equals("SW")){
+                direccion = "NW";
             }
         }
         arregloVector[0] = new Vector2D( padre.getPosicion().getPosX() ,padre.getPosicion().getPosY(),direccion );

@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Nivel {
     private final String nivel;
-    private final ArrayList<Celda> celdas = new ArrayList<>();
-    private final ArrayList<Bloque> bloques = new ArrayList<>();
-    private final ArrayList<Emisor> emisores = new ArrayList<>();
-    private final ArrayList<Objetivo> objetivos = new ArrayList<>();
-    private Coordenada dimension = new Coordenada(0, 0);
+    private final List<Celda> celdas = new ArrayList<>();
+    private final List<Bloque> bloques = new ArrayList<>();
+    private final List<Emisor> emisores = new ArrayList<>();
+    private final List<Objetivo> objetivos = new ArrayList<>();
+    private final Coordenada dimension = new Coordenada(0, 0);
 
     //CARGA DE OBJETOS
     public Nivel(String archivo) {
@@ -32,7 +33,7 @@ public class Nivel {
                 }
                 int j = 1;
                 for (char c : linea.toCharArray()) {
-                    crearTablero(i, j, c);
+                    crearTablero(j, i, c);
                     j += 2;
                     if (j > ancho) {
                         ancho = j;
@@ -53,6 +54,7 @@ public class Nivel {
     private void crearTablero(int x, int y, char c) {
         if (c == ' ') {
             return;
+        }
         if (c == '.') {
             this.celdas.add(new Celda(x, y, false));
             return;
@@ -101,11 +103,11 @@ public class Nivel {
     }
 
     //GETS ATRIBUTOS
-    public ArrayList<Emisor> getEmisores() {
+    public List<Emisor> getEmisores() {
         return this.emisores;
     }
 
-    public ArrayList<Bloque> getBloques() {
+    public List<Bloque> getBloques() {
         return this.bloques;
     }
 
@@ -113,10 +115,6 @@ public class Nivel {
     public String toString() {
         return this.nivel;
     }
-
 }
 
-    public ArrayList<Bloque> getBloques() {
-        return bloques;
-    }
-    }
+

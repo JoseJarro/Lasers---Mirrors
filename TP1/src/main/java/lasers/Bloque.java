@@ -5,11 +5,12 @@ public class Bloque {
     private int posicionx;
     private int posiciony;
     private final boolean fijo;
-    private ComportamientoBloque comportamientoBloque;
+    private final ComportamientoBloque comportamientoBloque;
 
     Bloque(int posicionx, int posiciony,boolean fijo, ComportamientoBloque comportamientoBloque){
         this.posicionx = posicionx;
         this.posiciony = posiciony;
+        this.comportamientoBloque = comportamientoBloque;
         this.fijo = fijo;
 
     }
@@ -32,13 +33,13 @@ public class Bloque {
             }
         }
         if (padre.getPosicion().getPosX() == posicionx){
-            if (padre.getPosicion().getPosX() == posiciony -1){
+            if (padre.getPosicion().getPosY() == posiciony -1){
                 cara = 4;
-            }else if (padre.getPosicion().getPosX() == posiciony +1) {
+            }else if (padre.getPosicion().getPosY() == posiciony +1) {
                 cara = 2;
             }
         }
-        return  comportamientoBloque.comportamientoBloque(padre,cara);
+        return  this.comportamientoBloque.comportamientoBloque(padre,cara);
     }
 
 
@@ -52,13 +53,12 @@ public class Bloque {
             }
         }
         if (padre.getPosicion().getPosX() == posicionx){
-            if (padre.getPosicion().getPosX() == posiciony -1){
+            if (padre.getPosicion().getPosY() == posiciony -1){
                 toco = true;
-            }else if (padre.getPosicion().getPosX() == posiciony +1) {
+            }else if (padre.getPosicion().getPosY() == posiciony +1) {
                 toco = true;
             }
         }
-
         return toco;
 
     }

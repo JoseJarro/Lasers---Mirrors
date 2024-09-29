@@ -1,34 +1,41 @@
 package lasers;
 import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.Graph;
+import org.jgrapht.traverse.DepthFirstIterator;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Emisor extends Vector2D{
-    //private final int limiteX;
-    //private final int limiteY;
 
     public Emisor(int x, int y, String direccion){
         super(x, y, direccion);
     }
 
-    public SimpleGraph<Vector2D, Integer> emitirLaser(Nivel nivel) {
-        SimpleGraph<Vector2D, Integer> grafoLaser = new SimpleGraph<>(null);
+    public List<Vector2D> emitirLaser(Nivel nivel) {
+        Graph<Vector2D, DefaultEdge> grafoLaser = new SimpleGraph<>(DefaultEdge.class);
         Vector2D inicio = new Vector2D(this.getPosicion().getPosX(), this.getPosicion().getPosY(), this.getDireccion());
         grafoLaser.addVertex(inicio);
         _emitirLaser(inicio, grafoLaser, nivel);
-        return grafoLaser;
+        DepthFirstIterator<Vector2D, DefaultEdge> recorridoLaserIter = new DepthFirstIterator<>(grafoLaser);
+        List<Vector2D> recorridoLaser = new ArrayList<>();
+        while (recorridoLaserIter.hasNext()) {
+            recorridoLaser.add(recorridoLaserIter.next());
+        }
+        System.out.println(recorridoLaser); //imprime recorrido DFS
+        return recorridoLaser;
     }
 
-    private void _emitirLaser(Vector2D padre, SimpleGraph<Vector2D, Integer> grafoLaser, Nivel nivel) {
+    private void _emitirLaser(Vector2D padre, Graph<Vector2D, DefaultEdge> grafoLaser, Nivel nivel) {
         if (nivel.fueraDimension(padre.getPosicion())) {
-            return;
+            return; //cumple pero falta casos especiales
         }
         for(Bloque bloque: nivel.getBloques()) {
-            // si la posicion actual choca con un bloque entonces devuelve una nueva coordenada. La posicion de un bloque es su centro
             if (bloque.tocaLaser(padre)) {
-                //posiblesCaminos porque existen bloques que devuelven muchas direcciones.
-                //Retorna un sola coordenada (null, null) si el laser es absorbido por un bloque.
-                Vector2D[] posiblesCaminos = bloque.comportamientoBloque(padre);
+                Vector2D[] posiblesCaminos = bloque.comportamientosBloque(padre);
                 for (Vector2D camino : posiblesCaminos) {
+                    if (camino == null) { return;}
                     grafoLaser.addVertex(camino);
                     grafoLaser.addEdge(padre, camino);
                     _emitirLaser(camino, grafoLaser, nivel);
@@ -40,17 +47,6 @@ public class Emisor extends Vector2D{
         grafoLaser.addVertex(avanzar);
         grafoLaser.addEdge(padre, avanzar);
         _emitirLaser(avanzar, grafoLaser, nivel);
-    }
-
-    private Vector2D moverDireccion(Vector2D v) {
-        Coordenada posicion = v.getPosicion();
-        return switch (v.getDireccion()) {
-            case "SE" -> new Vector2D(posicion.getPosX() + 1, posicion.getPosY() + 1, "SE");
-            case "SW" -> new Vector2D(posicion.getPosX() - 1, posicion.getPosY() + 1, "SW");
-            case "NE" -> new Vector2D(posicion.getPosX() + 1, posicion.getPosY() - 1, "NE");
-            case "NW" -> new Vector2D(posicion.getPosX() - 1, posicion.getPosY() - 1, "NW");
-            default -> null;
-        };
     }
 
     @Override

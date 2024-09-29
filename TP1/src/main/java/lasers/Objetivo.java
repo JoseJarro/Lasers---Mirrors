@@ -1,21 +1,24 @@
 package lasers;
 
-import org.jgrapht.graph.SimpleGraph;
+import java.util.List;
 
 public class Objetivo {
-    private Boolean estado;
-    private Coordenada posicion;
+    private final Coordenada posicion;
 
     public Objetivo(int x, int y) {
         this.posicion = new Coordenada(x, y);
-        this.estado = false;
     }
 
     public Boolean objetivoAlcanzado(Nivel nivel) {
         for (Emisor emisor : nivel.getEmisores()) {
-            SimpleGraph<Vector2D, null> laser = emisor.emitirLaser(nivel);
+            List<Vector2D> laser = emisor.emitirLaser(nivel);
+            for (Vector2D v : laser) {
+                if (v.getPosicion().getPosX() == this.posicion.getPosX() && v.getPosicion().getPosY() == this.posicion.getPosY()) {
+                    return true;
+                }
+            }
         }
-        return true;
+        return false;
     }
 
     @Override

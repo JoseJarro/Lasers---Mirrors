@@ -25,6 +25,10 @@ public class Celda {
         this.ocupado = false;
     }
 
+    public  Coordenada getCoordenada(){
+        return this.posicion;
+    }
+
     @Override
     public String toString() {
         return this.posicion + ", Ocupado: " + this.ocupado;

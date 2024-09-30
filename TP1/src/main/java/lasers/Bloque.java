@@ -62,4 +62,7 @@ public class Bloque {
         return toco;
 
     }
+    public Coordenada getCoordenada(){
+        return new Coordenada(posicionx,posiciony);
+    }
 }

@@ -112,6 +112,18 @@ public class Nivel {
         return false;
     }
 
+    public void moverBloque(Coordenada coordenadaInicial, Coordenada coordenadaFinal){
+
+        for (Bloque bloque : bloques){
+            Coordenada coordenadaBloque = bloque.getCoordenada();
+            if (coordenadaInicial.getPosY() == coordenadaBloque.getPosY()){
+                if (coordenadaInicial.getPosX() == coordenadaBloque.getPosX()){
+                    bloque.moverBloque(coordenadaFinal.getPosX(),coordenadaFinal.getPosY());
+                }
+            }
+        }
+    }
+
     //GETS ATRIBUTOS
     public List<Emisor> getEmisores() {
         return this.emisores;
@@ -119,6 +131,9 @@ public class Nivel {
 
     public List<Bloque> getBloques() {
         return this.bloques;
+    }
+    public List<Celda> getCeldas() {
+        return this.celdas;
     }
 
     @Override

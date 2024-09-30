@@ -4,9 +4,13 @@ public class Celda {
     private Boolean ocupado;
     private final Coordenada posicion;
 
-    public Celda(int x, int y, boolean ocupado) {
-        this.posicion = new Coordenada(x, y);
+    public Celda(Coordenada posicion, boolean ocupado) {
+        this.posicion = posicion;
         this.ocupado = ocupado;
+    }
+
+    public Coordenada getPosicion() {
+        return posicion;
     }
 
     public Boolean getOcupado() {
@@ -19,6 +23,10 @@ public class Celda {
 
     public void desocupar() {
         this.ocupado = false;
+    }
+
+    public  Coordenada getCoordenada(){
+        return this.posicion;
     }
 
     @Override

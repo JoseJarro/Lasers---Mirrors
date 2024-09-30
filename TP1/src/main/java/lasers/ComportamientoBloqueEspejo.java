@@ -1,15 +1,12 @@
 package lasers;
 
-import java.util.ArrayList;
-
 public class ComportamientoBloqueEspejo implements ComportamientoBloque {
-
-    private final Vector2D[] arregloVector = new Vector2D[1];
 
     @Override
     public Vector2D [] comportamientoBloque(Vector2D padre, int cara) {
+        Vector2D[] arregloVector = new Vector2D[1];
+        var direccion ="";
 
-        String direccion ="";
         if (cara == 1){
           if (padre.getDireccion().equals("NE")){
                 direccion = "NW";
@@ -17,31 +14,37 @@ public class ComportamientoBloqueEspejo implements ComportamientoBloque {
               direccion = "SW";
           }
         }
-        if (cara == 2){
+        else if (cara == 2){
             if (padre.getDireccion().equals("NE")){
                 direccion = "SE";
             }else if (padre.getDireccion().equals("NW")){
                 direccion = "SW";
             }
         }
-        if (cara == 3){
+        else if (cara == 3){
             if (padre.getDireccion().equals("SW")){
                 direccion = "SE";
             }else if (padre.getDireccion().equals("NW")){
                 direccion = "NE";
             }
         }
-        if (cara == 4){
+        else if (cara == 4){
             if (padre.getDireccion().equals("SE")){
                 direccion = "NE";
             }else if (padre.getDireccion().equals("SW")){
                 direccion = "NW";
             }
         }
+        if (direccion.isEmpty()){
+            Vector2D sigue = padre.clonar();
+            sigue.moverDireccion();
+            arregloVector[0] = sigue;
+            return arregloVector;
+        }
         padre.setDireccion(direccion);
-        Vector2D cambio = padre.moverDireccion(padre);
+        Vector2D cambio = padre.clonar();
+        cambio.moverDireccion();
         arregloVector[0] = cambio;
-
         return arregloVector;
     }
 }

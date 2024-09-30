@@ -1,42 +1,55 @@
 package lasers;
 
 public class ComportamientoBloqueVidrio implements ComportamientoBloque{
-
-
-    private final Vector2D[] arregloVector = null;
     @Override
     public Vector2D[] comportamientoBloque(Vector2D padre,int cara) {
-        String direccion ="";
+        Vector2D[] arregloVector = new Vector2D[2];
+        var direccion ="";
+
         if (cara == 1){
-            if (padre.getDireccion().equals("NO")){
-                direccion = "NE";
+            if (padre.getDireccion().equals("NE")){
+                direccion = "NW";
             }else if (padre.getDireccion().equals("SE")){
-                direccion = "SO";
+                direccion = "SW";
             }
         }
-        if (cara == 2){
-            if (padre.getDireccion().equals("SO")){
-                direccion = "NO";
-            }else if (padre.getDireccion().equals("SE")){
-                direccion = "NE";
-            }
-        }
-        if (cara == 3){
-            if (padre.getDireccion().equals("SE")){
-                direccion = "SO";
-            }else if (padre.getDireccion().equals("NE")){
-                direccion = "NO";
-            }
-        }
-        if (cara == 4){
-            if (padre.getDireccion().equals("NO")){
-                direccion = "SO";
-            }else if (padre.getDireccion().equals("NE")){
+        else if (cara == 2){
+            if (padre.getDireccion().equals("NE")){
                 direccion = "SE";
+            }else if (padre.getDireccion().equals("NW")){
+                direccion = "SW";
             }
         }
-        arregloVector[0] = new Vector2D( padre.getPosicion().getPosX() ,padre.getPosicion().getPosY(),direccion );
-        arregloVector[1] = new Vector2D( padre.getPosicion().getPosX() ,padre.getPosicion().getPosY(), padre.getDireccion() );
+        else if (cara == 3){
+            if (padre.getDireccion().equals("SW")){
+                direccion = "SE";
+            }else if (padre.getDireccion().equals("NW")){
+                direccion = "NE";
+            }
+        }
+        else if (cara == 4){
+            if (padre.getDireccion().equals("SE")){
+                direccion = "NE";
+            }else if (padre.getDireccion().equals("SW")){
+                direccion = "NW";
+            }
+        }
+
+        if (direccion.isEmpty()){
+            Vector2D sigue = padre.clonar();
+            sigue.moverDireccion();
+            arregloVector[0] = sigue;
+            return arregloVector;
+        }
+
+        Vector2D sigue = padre.clonar();
+        sigue.moverDireccion();
+        arregloVector[0] = sigue;
+
+        Vector2D cambio = padre.clonar();
+        cambio.setDireccion(direccion);
+        cambio.moverDireccion();
+        arregloVector[1] = cambio;
 
         return arregloVector;
 

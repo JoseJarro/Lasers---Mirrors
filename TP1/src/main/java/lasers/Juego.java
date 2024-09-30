@@ -10,19 +10,16 @@ public class Juego {
         nivel = new Nivel(pathNivel);
     }
 
-    public void moverBloque(Coordenada coordenadaInicial ,Coordenada coordenadaFinal){
+    public void moverBloque(Coordenada posInicial ,Coordenada posFinal){
         for (Celda celda : nivel.getCeldas()){
-            Coordenada coordenadaCelda = celda.getCoordenada();
-            if (coordenadaFinal.getPosY() == coordenadaCelda.getPosY()){
-                if (coordenadaFinal.getPosX() == coordenadaCelda.getPosX()){
-                    if (celda.getOcupado()) {
-                        break;
-                    }
+            Coordenada posCelda = celda.getCoordenada();
+            if (posFinal.iguales(posCelda)) {
+                if (celda.getOcupado()) {
+                    break;
                 }
             }
         }
-        nivel.moverBloque(coordenadaInicial,coordenadaFinal);
-
+        nivel.moverBloque(posInicial, posFinal);
     }
 
     public void cambiarNivel(int numeroNivel){
@@ -43,6 +40,6 @@ public class Juego {
 
     }
     public boolean juegoTerminado(){
-       return nivel.esNivelCompletado() ;
+       return nivel.esNivelCompletado();
     }
 }

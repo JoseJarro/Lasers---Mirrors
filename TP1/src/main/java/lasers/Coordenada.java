@@ -9,7 +9,7 @@ public class Coordenada {
         this.posY = y;
     }
 
-    public Boolean equals(Coordenada o) {
+    public Boolean iguales(Coordenada o) {
         if (this.posX == o.posX && this.posY == o.posY) {
             return true;
         }

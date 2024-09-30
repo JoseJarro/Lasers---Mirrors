@@ -35,6 +35,12 @@ public class ComportamientoBloqueEspejo implements ComportamientoBloque {
                 direccion = "NW";
             }
         }
+        if (direccion.isEmpty()){
+            Vector2D sigue = padre.clonar();
+            sigue.moverDireccion();
+            arregloVector[0] = sigue;
+            return arregloVector;
+        }
         padre.setDireccion(direccion);
         Vector2D cambio = padre.clonar();
         cambio.moverDireccion();

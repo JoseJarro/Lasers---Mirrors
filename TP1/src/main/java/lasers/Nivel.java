@@ -91,9 +91,10 @@ public class Nivel {
         Map<Coordenada, Vector2D> laser = new HashMap<>();
         for (Emisor emisor : this.emisores) {
             for (Vector2D v: emisor.emitirLaser(this)) {
-                laser.put(emisor.getPosicion(), v);
+                laser.put(v.getPosicion(), v);
             }
         }
+        //Error: siempre da false, pero emitir laser funciionaria.
         for (Coordenada objetivo : this.objetivos) {
             if (!(laser.containsKey(objetivo))) {
                 return false;
@@ -112,14 +113,11 @@ public class Nivel {
         return false;
     }
 
-    public void moverBloque(Coordenada coordenadaInicial, Coordenada coordenadaFinal){
-
-        for (Bloque bloque : bloques){
-            Coordenada coordenadaBloque = bloque.getCoordenada();
-            if (coordenadaInicial.getPosY() == coordenadaBloque.getPosY()){
-                if (coordenadaInicial.getPosX() == coordenadaBloque.getPosX()){
-                    bloque.moverBloque(coordenadaFinal.getPosX(),coordenadaFinal.getPosY());
-                }
+    public void moverBloque(Coordenada posInicial, Coordenada posFinal){
+        for (Bloque bloque : this.bloques){
+            Coordenada posBloque = bloque.getCoordenada();
+            if (posInicial.iguales(posBloque)) {
+                bloque.moverBloque(posFinal.getPosX(), posFinal.getPosY());
             }
         }
     }
@@ -132,6 +130,7 @@ public class Nivel {
     public List<Bloque> getBloques() {
         return this.bloques;
     }
+
     public List<Celda> getCeldas() {
         return this.celdas;
     }

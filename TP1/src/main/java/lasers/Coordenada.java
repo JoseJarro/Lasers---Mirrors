@@ -8,6 +8,14 @@ public class Coordenada {
         this.posX = x;
         this.posY = y;
     }
+
+    public Boolean equals(Coordenada o) {
+        if (this.posX == o.posX && this.posY == o.posY) {
+            return true;
+        }
+        return false;
+    }
+
     public int getPosY() {
         return this.posY;
     }

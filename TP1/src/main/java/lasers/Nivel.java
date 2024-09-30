@@ -3,16 +3,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Nivel {
     private final String nivel;
     private final List<Celda> celdas = new ArrayList<>();
     private final List<Bloque> bloques = new ArrayList<>();
     private final List<Emisor> emisores = new ArrayList<>();
-    private final List<Objetivo> objetivos = new ArrayList<>();
+    private final List<Coordenada> objetivos = new ArrayList<>();
     private final Coordenada dimension = new Coordenada(0, 0);
 
     //CARGA DE OBJETOS
@@ -52,40 +50,52 @@ public class Nivel {
     }
 
     private void crearTablero(int x, int y, char c) {
-        if (c == ' ') {
-            return;
+        var posicion = new Coordenada(x, y);
+        switch (c) {
+            case ' ':
+                return;
+            case '.':
+                this.celdas.add(new Celda(posicion, false));
+                return;
+            case 'F':
+                this.bloques.add(new Bloque(x ,y , TipoBloque.BLOQUE_OPACO_FIJO.esfijo(), TipoBloque.BLOQUE_OPACO_FIJO.obtenerComportamiento() ));
+                break;
+            case 'B':
+                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_OPACO_MOVIL.esfijo(), TipoBloque.BLOQUE_OPACO_MOVIL.obtenerComportamiento() ));
+                break;
+            case 'R':
+                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_ESPEJO.esfijo(), TipoBloque.BLOQUE_ESPEJO.obtenerComportamiento() ));
+                break;
+            case 'G':
+                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_VIDRIO.esfijo(), TipoBloque.BLOQUE_VIDRIO.obtenerComportamiento() ));
+                break;
+            case 'C':
+                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_CRISTAL.esfijo(), TipoBloque.BLOQUE_CRISTAL.obtenerComportamiento() ));
+                break;
         }
-        if (c == '.') {
-            this.celdas.add(new Celda(x, y, false));
-            return;
-        }
-        if (c == 'F') {
-            this.bloques.add(new Bloque(x ,y , TipoBloque.BLOQUE_OPACO_FIJO.esfijo(), TipoBloque.BLOQUE_OPACO_FIJO.obtenerComportamiento() ));
-        } else if (c == 'B') {
-            this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_OPACO_MOVIL.esfijo(), TipoBloque.BLOQUE_OPACO_MOVIL.obtenerComportamiento() ));
-        } else if (c == 'R') {
-            this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_ESPEJO.esfijo(), TipoBloque.BLOQUE_ESPEJO.obtenerComportamiento() ));
-        } else if (c == 'G') {
-            this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_VIDRIO.esfijo(), TipoBloque.BLOQUE_VIDRIO.obtenerComportamiento() ));
-        } else if (c == 'C') {
-            this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_CRISTAL.esfijo(), TipoBloque.BLOQUE_CRISTAL.obtenerComportamiento() ));
-        }
-        this.celdas.add(new Celda(x, y, true));
+        this.celdas.add(new Celda(posicion, true));
     }
 
     private void crearElementos(String[] valores) {
         int x = Integer.parseInt(valores[1]);
         int y = Integer.parseInt(valores[2]);
+        var posicion = new Coordenada(x, y);
         if (valores[0].equals("E")) {
-            this.emisores.add(new Emisor(x, y, valores[3]));
+            this.emisores.add(new Emisor(posicion, valores[3]));
         } else if (valores[0].equals("G")) {
-            this.objetivos.add(new Objetivo(x, y));
+            this.objetivos.add(posicion);
         }
     }
 
     public Boolean esNivelCompletado() {
-        for (Objetivo objetivo : this.objetivos) {
-            if (!objetivo.objetivoAlcanzado(this)) {
+        Map<Coordenada, Vector2D> laser = new HashMap<>();
+        for (Emisor emisor : this.emisores) {
+            for (Vector2D v: emisor.emitirLaser(this)) {
+                laser.put(emisor.getPosicion(), v);
+            }
+        }
+        for (Coordenada objetivo : this.objetivos) {
+            if (!(laser.containsKey(objetivo))) {
                 return false;
             }
         }

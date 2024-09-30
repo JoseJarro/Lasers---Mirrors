@@ -35,12 +35,12 @@ public class Emisor extends Vector2D{
             if (bloque.tocaLaser(padre)) {
                 Vector2D[] posiblesCaminos = bloque.comportamientosBloque(padre);
                 for (Vector2D camino : posiblesCaminos) {
-                    if (camino == null) { return;}
+                    if (camino == null) { continue;}
                     grafoLaser.addVertex(camino);
                     grafoLaser.addEdge(padre, camino);
                     _emitirLaser(camino, grafoLaser, nivel);
-                    return;
                 }
+                return;
             }
         }
         Vector2D avanzar = moverDireccion(padre);

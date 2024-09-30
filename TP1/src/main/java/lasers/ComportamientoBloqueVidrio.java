@@ -1,11 +1,9 @@
 package lasers;
 
 public class ComportamientoBloqueVidrio implements ComportamientoBloque{
-
-
-    private final Vector2D[] arregloVector = null;
     @Override
     public Vector2D[] comportamientoBloque(Vector2D padre,int cara) {
+        Vector2D[] arregloVector = new Vector2D[2];
         String direccion ="";
         if (cara == 1){
             if (padre.getDireccion().equals("NE")){
@@ -35,8 +33,17 @@ public class ComportamientoBloqueVidrio implements ComportamientoBloque{
                 direccion = "NW";
             }
         }
-        arregloVector[0] = new Vector2D( padre.getPosicion().getPosX() ,padre.getPosicion().getPosY(),direccion );
-        arregloVector[1] = new Vector2D( padre.getPosicion().getPosX() ,padre.getPosicion().getPosY(), padre.getDireccion() );
+
+        if (direccion.isEmpty()){
+            Vector2D sigue = padre.moverDireccion(padre);
+            arregloVector[0] = sigue;
+            return arregloVector;
+        }
+        Vector2D sigue = padre.moverDireccion(padre);
+        arregloVector[0] = sigue;
+
+        Vector2D cambio = new Vector2D( padre.getPosicion().getPosX() ,padre.getPosicion().getPosY(), direccion);
+        arregloVector[1] = cambio.moverDireccion(cambio);
 
         return arregloVector;
 

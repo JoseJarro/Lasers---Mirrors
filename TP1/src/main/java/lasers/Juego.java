@@ -14,7 +14,7 @@ public class Juego {
     public void moverBloque(Coordenada posInicial ,Coordenada posFinal){
         for (Celda celda : nivel.getCeldas()){
             Coordenada posCelda = celda.getCoordenada();
-            if (posFinal.iguales(posCelda)) {
+            if (posFinal.equals(posCelda)) {
                 if (celda.getOcupado()) {
                     break;
                 }

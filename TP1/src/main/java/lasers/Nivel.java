@@ -18,23 +18,20 @@ public class Nivel {
         this.nivel = archivo;
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(archivo);
         if (inputStream == null) {
-            System.out.println("Error. Archivo no encontrado");
+            System.err.println("Error. Archivo no encontrado");
             return;
         }
         try(BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String linea;
             int ancho = 0;
             int alto = 1;
-            while (!Objects.equals(linea = br.readLine(), "")) {
-                if (linea == null) {
-                    break;
-                }
-                int j = 1;
+            while (!((linea = br.readLine()).isEmpty())) {
+                int i = 1;
                 for (char c : linea.toCharArray()) {
-                    crearTablero(j, alto, c);
-                    j += 2;
-                    if (j > ancho) {
-                        ancho = j;
+                    crearTablero(i, alto, c);
+                    i += 2;
+                    if (i > ancho) {
+                        ancho = i;
                     }
                 }
                 alto += 2;
@@ -42,7 +39,12 @@ public class Nivel {
             this.dimension.setPosX(ancho - 1);
             this.dimension.setPosY(alto - 1);
             while ((linea = br.readLine()) != null) {
-                crearElementos(linea.split(" "));
+                var parametros = linea.split(" ");
+                if (verificador.parametrosValidos(parametros, this)) {
+                    crearElementos(parametros);
+                    continue;
+                }
+                throw new IOException("Error. Emisores o Objetivos incorrectos");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -72,6 +74,7 @@ public class Nivel {
             case 'C':
                 this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_CRISTAL.esfijo(), TipoBloque.BLOQUE_CRISTAL.obtenerComportamiento() ));
                 break;
+            default: return;
         }
         this.celdas.add(new Celda(posicion, true));
     }
@@ -113,7 +116,7 @@ public class Nivel {
     public void moverBloque(Coordenada posInicial, Coordenada posFinal){
         for (Bloque bloque : this.bloques){
             Coordenada posBloque = bloque.getCoordenada();
-            if (posInicial.iguales(posBloque)) {
+            if (posInicial.equals(posBloque)) {
                 bloque.moverBloque(posFinal.getPosX(), posFinal.getPosY());
             }
         }

@@ -2,12 +2,14 @@ package lasers;
 
 public class ComportamientoBloqueCristal implements ComportamientoBloque{
 
-    int posx =0;
-    int posy =0;
 
 
     @Override
     public Vector2D[] comportamientoBloque(Vector2D padre,int cara) {
+        int posx =0;
+        int posy =0;
+        Vector2D[] arregloVector = new Vector2D[1];
+
         if (cara ==1){
             posx = padre.getPosicion().getPosX()+2;
             posy = padre.getPosicion().getPosY();
@@ -22,6 +24,7 @@ public class ComportamientoBloqueCristal implements ComportamientoBloque{
             posy = padre.getPosicion().getPosY()+2;
 
         }
-        return null;
+        arregloVector[0]=new Vector2D(new Coordenada(posx,posy),padre.getDireccion());
+        return arregloVector;
     }
 }

@@ -4,10 +4,11 @@ public class Juego {
     String pathNivel = "level1.dat";
     private boolean estado;
     private Nivel nivel;
+    private VerificadorNivel verificador = new VerificadorNivel();
 
 
     public Juego(){
-        nivel = new Nivel(pathNivel);
+        nivel = new Nivel(pathNivel, verificador);
     }
 
     public void moverBloque(Coordenada posInicial ,Coordenada posFinal){
@@ -36,7 +37,7 @@ public class Juego {
         }else if(numeroNivel == 6){
             pathNivel = "level6.dat";
         }
-        nivel = new Nivel(pathNivel);
+        nivel = new Nivel(pathNivel, verificador);
 
     }
     public boolean juegoTerminado(){

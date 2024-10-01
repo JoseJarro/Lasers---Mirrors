@@ -10,10 +10,7 @@ public class Coordenada {
     }
 
     public Boolean iguales(Coordenada o) {
-        if (this.posX == o.posX && this.posY == o.posY) {
-            return true;
-        }
-        return false;
+        return this.posX == o.posX && this.posY == o.posY;
     }
 
     public int getPosY() {
@@ -28,6 +25,6 @@ public class Coordenada {
 
     @Override
     public String toString() {
-        return String.format("(%d,%d)", this.posX, this.posY);
+        return String.format("(%d:%d)", this.posX, this.posY);
     }
 }

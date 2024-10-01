@@ -14,7 +14,7 @@ public class Nivel {
     private final Coordenada dimension = new Coordenada(0, 0);
 
     //CARGA DE OBJETOS
-    public Nivel(String archivo) {
+    public Nivel(String archivo, VerificadorNivel verificador) {
         this.nivel = archivo;
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(archivo);
         if (inputStream == null) {
@@ -24,23 +24,23 @@ public class Nivel {
         try(BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String linea;
             int ancho = 0;
-            int i = 1;
+            int alto = 1;
             while (!Objects.equals(linea = br.readLine(), "")) {
                 if (linea == null) {
                     break;
                 }
                 int j = 1;
                 for (char c : linea.toCharArray()) {
-                    crearTablero(j, i, c);
+                    crearTablero(j, alto, c);
                     j += 2;
                     if (j > ancho) {
                         ancho = j;
                     }
                 }
-                i += 2;
+                alto += 2;
             }
             this.dimension.setPosX(ancho - 1);
-            this.dimension.setPosY(i - 1);
+            this.dimension.setPosY(alto - 1);
             while ((linea = br.readLine()) != null) {
                 crearElementos(linea.split(" "));
             }
@@ -58,19 +58,19 @@ public class Nivel {
                 this.celdas.add(new Celda(posicion, false));
                 return;
             case 'F':
-                this.bloques.add(new Bloque(x ,y , TipoBloque.BLOQUE_OPACO_FIJO.esfijo(), TipoBloque.BLOQUE_OPACO_FIJO.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_OPACO_FIJO.esfijo(), TipoBloque.BLOQUE_OPACO_FIJO.obtenerComportamiento() ));
                 break;
             case 'B':
-                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_OPACO_MOVIL.esfijo(), TipoBloque.BLOQUE_OPACO_MOVIL.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_OPACO_MOVIL.esfijo(), TipoBloque.BLOQUE_OPACO_MOVIL.obtenerComportamiento() ));
                 break;
             case 'R':
-                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_ESPEJO.esfijo(), TipoBloque.BLOQUE_ESPEJO.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_ESPEJO.esfijo(), TipoBloque.BLOQUE_ESPEJO.obtenerComportamiento() ));
                 break;
             case 'G':
-                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_VIDRIO.esfijo(), TipoBloque.BLOQUE_VIDRIO.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_VIDRIO.esfijo(), TipoBloque.BLOQUE_VIDRIO.obtenerComportamiento() ));
                 break;
             case 'C':
-                this.bloques.add(new Bloque(x, y, TipoBloque.BLOQUE_CRISTAL.esfijo(), TipoBloque.BLOQUE_CRISTAL.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_CRISTAL.esfijo(), TipoBloque.BLOQUE_CRISTAL.obtenerComportamiento() ));
                 break;
         }
         this.celdas.add(new Celda(posicion, true));
@@ -107,10 +107,7 @@ public class Nivel {
         if (posicion.getPosX() > this.dimension.getPosX() || posicion.getPosX() < 0) {
             return true;
         }
-        if (posicion.getPosY() > this.dimension.getPosY() || posicion.getPosY() < 0) {
-            return true;
-        }
-        return false;
+        else return posicion.getPosY() > this.dimension.getPosY() || posicion.getPosY() < 0;
     }
 
     public void moverBloque(Coordenada posInicial, Coordenada posFinal){

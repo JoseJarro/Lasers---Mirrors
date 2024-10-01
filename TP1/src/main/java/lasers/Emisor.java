@@ -3,7 +3,6 @@ import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.Graph;
 import org.jgrapht.traverse.DepthFirstIterator;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class Emisor {
 
     public List<Vector2D> emitirLaser(Nivel nivel) {
         Graph<Vector2D, DefaultEdge> grafoLaser = new SimpleGraph<>(DefaultEdge.class);
-        Vector2D inicio = new Vector2D(this.getPosicion(), this.getDireccion());
+        var inicio = new Vector2D(this.getPosicion(), this.getDireccion());
         grafoLaser.addVertex(inicio);
         _emitirLaser(inicio, grafoLaser, nivel);
         return recorridoDFS(grafoLaser);
@@ -34,7 +33,7 @@ public class Emisor {
 
     private List<Vector2D> recorridoDFS(Graph<Vector2D, DefaultEdge> grafo) {
         var recorridoLaser = new ArrayList<Vector2D>();
-        DepthFirstIterator<Vector2D, DefaultEdge> recorridoLaserIter = new DepthFirstIterator<>(grafo);
+        var recorridoLaserIter = new DepthFirstIterator<>(grafo);
         while (recorridoLaserIter.hasNext()) {
             recorridoLaser.add(recorridoLaserIter.next());
         }
@@ -47,9 +46,8 @@ public class Emisor {
             return;
         }
         for(Bloque bloque: nivel.getBloques()) {
-            if (bloque.tocaLaser(padre)) {
-                Vector2D[] posiblesCaminos = bloque.comportamientosBloque(padre);
-                for (Vector2D camino : posiblesCaminos) {
+            if (bloque.colisionaLaser(padre)) {
+                for (Vector2D camino : bloque.comportamientosBloque(padre)) {
                     if (camino == null) { continue;}
                     grafoLaser.addVertex(camino);
                     grafoLaser.addEdge(padre, camino);
@@ -67,6 +65,6 @@ public class Emisor {
 
     @Override
     public String toString() {
-        return "Emisor: " + this.posicion;
+        return this.posicion.toString();
     }
 }

@@ -7,44 +7,34 @@ public class ComportamientoBloqueEspejo implements ComportamientoBloque {
         Vector2D[] arregloVector = new Vector2D[1];
         var direccion ="";
 
-        if (cara == 1){
-          if (padre.getDireccion().equals("NE")){
-                direccion = "NW";
-          }else if (padre.getDireccion().equals("SE")){
-              direccion = "SW";
-          }
-        }
-        else if (cara == 2){
-            if (padre.getDireccion().equals("NE")){
-                direccion = "SE";
-            }else if (padre.getDireccion().equals("NW")){
-                direccion = "SW";
-            }
-        }
-        else if (cara == 3){
-            if (padre.getDireccion().equals("SW")){
-                direccion = "SE";
-            }else if (padre.getDireccion().equals("NW")){
-                direccion = "NE";
-            }
-        }
-        else if (cara == 4){
-            if (padre.getDireccion().equals("SE")){
-                direccion = "NE";
-            }else if (padre.getDireccion().equals("SW")){
-                direccion = "NW";
-            }
-        }
-        if (direccion.isEmpty()){
-            Vector2D sigue = padre.clonar();
-            sigue.moverDireccion();
-            arregloVector[0] = sigue;
-            return arregloVector;
-        }
+        direccion = switch (cara) {
+            case 1 -> switch (padre.getDireccion()) {
+                case "NE" -> "NW";
+                case "SE" -> "SW";
+                default -> direccion;
+            };
+            case 2 -> switch (padre.getDireccion()) {
+                case "NE" -> "SE";
+                case "NW" -> "SW";
+                default -> direccion;
+            };
+            case 3 -> switch (padre.getDireccion()) {
+                case "SW" -> "SE";
+                case "NW" -> "NE";
+                default -> direccion;
+            };
+            case 4 -> switch (padre.getDireccion()) {
+                case "SE" -> "NE";
+                case "SW" -> "NW";
+                default -> direccion;
+            };
+            default -> "";
+        };
+
         padre.setDireccion(direccion);
-        Vector2D cambio = padre.clonar();
-        cambio.moverDireccion();
-        arregloVector[0] = cambio;
+        Vector2D cambia = padre.clonar();
+        cambia.moverDireccion();
+        arregloVector[0] = cambia;
         return arregloVector;
     }
 }

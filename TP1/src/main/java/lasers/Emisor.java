@@ -26,7 +26,7 @@ public class Emisor {
     public List<Vector2D> emitirLaser(Nivel nivel) {
         Graph<Vector2D, DefaultEdge> grafoLaser = new SimpleGraph<>(DefaultEdge.class);
         var inicio = new Vector2D(this.getPosicion(), this.getDireccion());
-        var posGiros = new HashMap<Coordenada, Boolean>();
+        var posGiros = new HashSet<Vector2D>();
         grafoLaser.addVertex(inicio);
         _emitirLaser(inicio, grafoLaser, nivel, posGiros);
         System.out.println(grafoLaser);
@@ -43,11 +43,11 @@ public class Emisor {
         return recorridoLaser;
     }
 
-    private void _emitirLaser(Vector2D padre, Graph<Vector2D, DefaultEdge> grafoLaser, Nivel nivel, Map<Coordenada, Boolean> giros) {
+    private void _emitirLaser(Vector2D padre, Graph<Vector2D, DefaultEdge> grafoLaser, Nivel nivel, Set<Vector2D> giros) {
         if (nivel.fueraDimension(padre.getPosicion())) {
             return;
         }
-        if (padre.getPosicion().getPosX() == 1 && padre.getPosicion().getPosY() == 4) {
+        if (padre.getPosicion().getPosX() == 5 && padre.getPosicion().getPosY() == 8) {
             System.out.println("aaa");
         }
         var direccion = padre.getDireccion();
@@ -56,13 +56,11 @@ public class Emisor {
                 var caminos = bloque.comportamientosBloque(padre);
                 for (Vector2D camino : caminos) {
                     if (camino == null) { continue;}
-                    if (giros.get(padre.getPosicion()) != null) {
+                    if (giros.contains(padre)) {
                         continue;
                     }
-                    if (!Objects.equals(direccion, padre.getDireccion())) {
-                        giros.put(padre.getPosicion(), true);
-                    }
-                    if (camino.getPosicion().equals(padre.getPosicion())) {
+                    if (!(direccion.equals(padre.getDireccion())) && camino.equals(padre)) {
+                        giros.add(padre);
                         _emitirLaser(camino, grafoLaser, nivel, giros);
                         continue;
                     }

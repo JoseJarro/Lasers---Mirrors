@@ -1,10 +1,10 @@
 package lasers;
 
 public class Juego {
-    String pathNivel = "level1.dat";
+    String pathNivel = "level6.dat";
     private boolean estado;
     private Nivel nivel;
-    private VerificadorNivel verificador = new VerificadorNivel();
+    private final VerificadorNivel verificador = new VerificadorNivel();
 
 
     public Juego(){

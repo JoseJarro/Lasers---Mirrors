@@ -91,15 +91,14 @@ public class Nivel {
     }
 
     public Boolean esNivelCompletado() {
-        Map<Coordenada, Vector2D> laser = new HashMap<>();
+        var laser = new HashSet<>();
         for (Emisor emisor : this.emisores) {
             for (Vector2D v: emisor.emitirLaser(this)) {
-                laser.put(v.getPosicion(), v);
+                laser.add(v.getPosicion());
             }
         }
-        //Error: siempre da false, pero emitir laser funciionaria.
         for (Coordenada objetivo : this.objetivos) {
-            if (!(laser.containsKey(objetivo))) {
+            if (!(laser.contains(objetivo))) {
                 return false;
             }
         }

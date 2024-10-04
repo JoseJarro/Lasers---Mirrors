@@ -2,11 +2,11 @@ package lasers;
 
 public enum TipoBloque {
 
-    BLOQUE_ESPEJO(new ComportamientoBloqueEspejo(),  false),
-    BLOQUE_VIDRIO(new ComportamientoBloqueVidrio(),  false),
-    BLOQUE_CRISTAL(new ComportamientoBloqueCristal(),  false),
-    BLOQUE_OPACO_FIJO(new ComportamientoBloqueOpaco(),  true),
-    BLOQUE_OPACO_MOVIL(new ComportamientoBloqueOpaco(), false);
+    ESPEJO(new ComportamientoBloqueEspejo(),  false),
+    VIDRIO(new ComportamientoBloqueVidrio(),  false),
+    CRISTAL(new ComportamientoBloqueCristal(),  false),
+    OPACO_FIJO(new ComportamientoBloqueOpaco(),  true),
+    OPACO_MOVIL(new ComportamientoBloqueOpaco(), false);
 
     private  final ComportamientoBloque comportamientoBloque;
     private final boolean fijo;
@@ -19,6 +19,6 @@ public enum TipoBloque {
 
    public  boolean esfijo() {return fijo;}
 
-    public  ComportamientoBloque obtenerComportamiento() {return comportamientoBloque;}
+    public  ComportamientoBloque getComportamiento() {return comportamientoBloque;}
 
 }

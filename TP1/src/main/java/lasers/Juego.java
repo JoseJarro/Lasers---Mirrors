@@ -17,9 +17,17 @@ public class Juego {
             if (posFinal.equals(posCelda)) {
                 if (celda.getOcupado()) {
                     break;
-                }
+                }else celda.ocupar();
             }
         }
+
+        for (Celda celda : nivel.getCeldas()){
+            Coordenada posCelda = celda.getCoordenada();
+            if (posInicial.iguales(posCelda)) {
+                celda.desocupar();
+            }
+        }
+
         nivel.moverBloque(posInicial, posFinal);
     }
 

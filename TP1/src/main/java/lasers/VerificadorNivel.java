@@ -6,14 +6,14 @@ public class VerificadorNivel {
         if (parametros.length < 3) {
             return false;
         }
-        if (!(posicionValida(parametros))) {
+        var posicion = esCoordenadaValida(parametros);
+        if (posicion == null) {
             return false;
         }
-        var x = Integer.parseInt(parametros[1]);
-        var y = Integer.parseInt(parametros[2]);
-        if (nivel.fueraDimension(new Coordenada(x, y))) {
+        if (nivel.fueraDimension(posicion)) {
             return false;
         }
+        if (posicion.getPosX() % 2 == 0 && posicion.getPosY() % 2 == 0) {}
         return switch (parametros[0]) {
             case "G" -> true;
             case "E" -> validarDireccion(parametros);
@@ -21,16 +21,19 @@ public class VerificadorNivel {
         };
     }
 
-    private Boolean posicionValida(String[] parametros) {
+    private Coordenada esCoordenadaValida(String[] parametros) {
         try {
-            Integer.parseInt(parametros[1]);
-            Integer.parseInt(parametros[2]);
-            return true;
+            var x = Integer.parseInt(parametros[1]);
+            var y = Integer.parseInt(parametros[2]);
+            if ((x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0)) {
+                return new Coordenada(x, y);
+            }
+            return null;
 
         } catch (NumberFormatException e) {
             System.err.println("Error. Coordenada no válida");
         }
-        return false;
+        return null;
     }
 
     private Boolean validarDireccion(String[] parametros) {

@@ -23,11 +23,10 @@ public class Juego {
 
         for (Celda celda : nivel.getCeldas()){
             Coordenada posCelda = celda.getCoordenada();
-            if (posInicial.iguales(posCelda)) {
+            if (posInicial.equals(posCelda)) {
                 celda.desocupar();
             }
         }
-
         nivel.moverBloque(posInicial, posFinal);
     }
 

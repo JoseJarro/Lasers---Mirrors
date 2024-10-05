@@ -1,5 +1,7 @@
 package lasers;
 
+import java.util.Objects;
+
 public class Vector2D {
     private final Coordenada posicion;
     private String direccion;
@@ -40,6 +42,19 @@ public class Vector2D {
                 break;
             default: System.out.println("Error. Salida no hay direccion");
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector2D otro = (Vector2D) o;
+        return this.posicion.equals(otro.posicion) && this.direccion.equals(otro.direccion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(posicion);
     }
 
     public Vector2D clonar() {

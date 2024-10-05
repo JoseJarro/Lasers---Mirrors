@@ -31,12 +31,10 @@ public class ComportamientoBloqueVidrio implements ComportamientoBloque{
 
         Vector2D continuo = padre.clonar();
         continuo.moverDireccion();
-        arregloVector[0] = continuo;
 
-        Vector2D cambia = padre.clonar();
-        cambia.setDireccion(direccion);
-        cambia.moverDireccion();
-        arregloVector[1] = cambia;
+        padre.setDireccion(direccion);
+        arregloVector[0] = continuo;
+        arregloVector[1] = padre;
 
         return arregloVector;
 

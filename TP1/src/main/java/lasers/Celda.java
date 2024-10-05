@@ -9,9 +9,6 @@ public class Celda {
         this.ocupado = ocupado;
     }
 
-    public Coordenada getPosicion() {
-        return posicion;
-    }
 
     public Boolean getOcupado() {
         return this.ocupado;

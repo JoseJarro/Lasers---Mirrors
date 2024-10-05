@@ -1,10 +1,10 @@
 package lasers;
 
 public class Juego {
-    String pathNivel = "level1.dat";
+    String pathNivel = "level6.dat";
     private boolean estado;
     private Nivel nivel;
-    private VerificadorNivel verificador = new VerificadorNivel();
+    private final VerificadorNivel verificador = new VerificadorNivel();
 
 
     public Juego(){
@@ -14,10 +14,17 @@ public class Juego {
     public void moverBloque(Coordenada posInicial ,Coordenada posFinal){
         for (Celda celda : nivel.getCeldas()){
             Coordenada posCelda = celda.getCoordenada();
-            if (posFinal.iguales(posCelda)) {
+            if (posFinal.equals(posCelda)) {
                 if (celda.getOcupado()) {
                     break;
-                }
+                }else celda.ocupar();
+            }
+        }
+
+        for (Celda celda : nivel.getCeldas()){
+            Coordenada posCelda = celda.getCoordenada();
+            if (posInicial.equals(posCelda)) {
+                celda.desocupar();
             }
         }
         nivel.moverBloque(posInicial, posFinal);

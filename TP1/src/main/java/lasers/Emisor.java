@@ -3,8 +3,8 @@ import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.Graph;
 import org.jgrapht.traverse.DepthFirstIterator;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 public class Emisor {
     private final Coordenada posicion;
@@ -26,8 +26,10 @@ public class Emisor {
     public List<Vector2D> emitirLaser(Nivel nivel) {
         Graph<Vector2D, DefaultEdge> grafoLaser = new SimpleGraph<>(DefaultEdge.class);
         var inicio = new Vector2D(this.getPosicion(), this.getDireccion());
+        var posGiros = new HashSet<Vector2D>();
         grafoLaser.addVertex(inicio);
-        _emitirLaser(inicio, grafoLaser, nivel);
+        _emitirLaser(inicio, grafoLaser, nivel, posGiros);
+        System.out.println(grafoLaser);
         return recorridoDFS(grafoLaser);
     }
 
@@ -41,17 +43,30 @@ public class Emisor {
         return recorridoLaser;
     }
 
-    private void _emitirLaser(Vector2D padre, Graph<Vector2D, DefaultEdge> grafoLaser, Nivel nivel) {
+    private void _emitirLaser(Vector2D padre, Graph<Vector2D, DefaultEdge> grafoLaser, Nivel nivel, Set<Vector2D> giros) {
         if (nivel.fueraDimension(padre.getPosicion())) {
             return;
         }
+        if (padre.getPosicion().getPosX() == 5 && padre.getPosicion().getPosY() == 8) {
+            System.out.println("aaa");
+        }
+        var direccion = padre.getDireccion();
         for(Bloque bloque: nivel.getBloques()) {
             if (bloque.colisionaLaser(padre)) {
-                for (Vector2D camino : bloque.comportamientosBloque(padre)) {
+                var caminos = bloque.comportamientosBloque(padre);
+                for (Vector2D camino : caminos) {
                     if (camino == null) { continue;}
+                    if (giros.contains(padre)) {
+                        continue;
+                    }
+                    if (!(direccion.equals(padre.getDireccion())) && camino.equals(padre)) {
+                        giros.add(padre);
+                        _emitirLaser(camino, grafoLaser, nivel, giros);
+                        continue;
+                    }
                     grafoLaser.addVertex(camino);
                     grafoLaser.addEdge(padre, camino);
-                    _emitirLaser(camino, grafoLaser, nivel);
+                    _emitirLaser(camino, grafoLaser, nivel, giros);
                 }
                 return;
             }
@@ -60,7 +75,7 @@ public class Emisor {
         avanzar.moverDireccion();
         grafoLaser.addVertex(avanzar);
         grafoLaser.addEdge(padre, avanzar);
-        _emitirLaser(avanzar, grafoLaser, nivel);
+        _emitirLaser(avanzar, grafoLaser, nivel, giros);
     }
 
     @Override

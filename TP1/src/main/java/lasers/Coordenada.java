@@ -1,5 +1,7 @@
 package lasers;
 
+import java.util.Objects;
+
 public class Coordenada {
     private int posX;
     private int posY;
@@ -9,8 +11,17 @@ public class Coordenada {
         this.posY = y;
     }
 
-    public Boolean iguales(Coordenada o) {
-        return this.posX == o.posX && this.posY == o.posY;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordenada otro = (Coordenada) o;
+        return this.posX == otro.posX && this.posY == otro.posY;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(posX, posY);
     }
 
     public int getPosY() {
@@ -22,6 +33,8 @@ public class Coordenada {
 
     public void setPosX(int posX) { this.posX = posX; }
     public void setPosY(int posY) { this.posY = posY; }
+
+
 
     @Override
     public String toString() {

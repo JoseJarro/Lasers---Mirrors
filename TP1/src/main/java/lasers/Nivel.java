@@ -18,23 +18,20 @@ public class Nivel {
         this.nivel = archivo;
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(archivo);
         if (inputStream == null) {
-            System.out.println("Error. Archivo no encontrado");
+            System.err.println("Error. Archivo no encontrado");
             return;
         }
         try(BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String linea;
             int ancho = 0;
             int alto = 1;
-            while (!Objects.equals(linea = br.readLine(), "")) {
-                if (linea == null) {
-                    break;
-                }
-                int j = 1;
+            while (!((linea = br.readLine()).isEmpty())) {
+                int i = 1;
                 for (char c : linea.toCharArray()) {
-                    crearTablero(j, alto, c);
-                    j += 2;
-                    if (j > ancho) {
-                        ancho = j;
+                    crearTablero(i, alto, c);
+                    i += 2;
+                    if (i > ancho) {
+                        ancho = i;
                     }
                 }
                 alto += 2;
@@ -42,7 +39,12 @@ public class Nivel {
             this.dimension.setPosX(ancho - 1);
             this.dimension.setPosY(alto - 1);
             while ((linea = br.readLine()) != null) {
-                crearElementos(linea.split(" "));
+                var parametros = linea.split(" ");
+                if (verificador.parametrosValidos(parametros, this)) {
+                    crearElementos(parametros);
+                    continue;
+                }
+                throw new IOException("Error. Emisores o Objetivos incorrectos");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -58,20 +60,21 @@ public class Nivel {
                 this.celdas.add(new Celda(posicion, false));
                 return;
             case 'F':
-                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_OPACO_FIJO.esfijo(), TipoBloque.BLOQUE_OPACO_FIJO.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_FIJO.esfijo(), TipoBloque.OPACO_FIJO.getComportamiento() ));
                 break;
             case 'B':
-                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_OPACO_MOVIL.esfijo(), TipoBloque.BLOQUE_OPACO_MOVIL.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_MOVIL.esfijo(), TipoBloque.OPACO_MOVIL.getComportamiento() ));
                 break;
             case 'R':
-                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_ESPEJO.esfijo(), TipoBloque.BLOQUE_ESPEJO.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento() ));
                 break;
             case 'G':
-                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_VIDRIO.esfijo(), TipoBloque.BLOQUE_VIDRIO.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.VIDRIO.esfijo(), TipoBloque.VIDRIO.getComportamiento() ));
                 break;
             case 'C':
-                this.bloques.add(new Bloque(posicion, TipoBloque.BLOQUE_CRISTAL.esfijo(), TipoBloque.BLOQUE_CRISTAL.obtenerComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.CRISTAL.esfijo(), TipoBloque.CRISTAL.getComportamiento() ));
                 break;
+            default: return;
         }
         this.celdas.add(new Celda(posicion, true));
     }
@@ -88,15 +91,14 @@ public class Nivel {
     }
 
     public Boolean esNivelCompletado() {
-        Map<Coordenada, Vector2D> laser = new HashMap<>();
+        var laser = new HashSet<>();
         for (Emisor emisor : this.emisores) {
             for (Vector2D v: emisor.emitirLaser(this)) {
-                laser.put(v.getPosicion(), v);
+                laser.add(v.getPosicion());
             }
         }
-        //Error: siempre da false, pero emitir laser funciionaria.
         for (Coordenada objetivo : this.objetivos) {
-            if (!(laser.containsKey(objetivo))) {
+            if (!(laser.contains(objetivo))) {
                 return false;
             }
         }
@@ -113,7 +115,7 @@ public class Nivel {
     public void moverBloque(Coordenada posInicial, Coordenada posFinal){
         for (Bloque bloque : this.bloques){
             Coordenada posBloque = bloque.getCoordenada();
-            if (posInicial.iguales(posBloque)) {
+            if (posInicial.equals(posBloque)) {
                 bloque.moverBloque(posFinal.getPosX(), posFinal.getPosY());
             }
         }

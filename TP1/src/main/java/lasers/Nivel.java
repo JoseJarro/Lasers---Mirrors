@@ -91,18 +91,15 @@ public class Nivel {
     }
 
     public Boolean esNivelCompletado() {
-        var laser = new HashSet<>();
+        var objetivosCompletados = 0;
         for (Emisor emisor : this.emisores) {
-            for (Vector2D v: emisor.emitirLaser(this)) {
-                laser.add(v.getPosicion());
+            for (Coordenada objetivo : this.objetivos) {
+                if (emisor.emitirLaser(this).vertexSet().contains(new Vector2D(objetivo, ""))) {
+                    objetivosCompletados++;
+                }
             }
         }
-        for (Coordenada objetivo : this.objetivos) {
-            if (!(laser.contains(objetivo))) {
-                return false;
-            }
-        }
-        return true;
+        return objetivosCompletados >= this.objetivos.size();
     }
 
     public Coordenada getDimension() {return dimension;}

@@ -1,7 +1,7 @@
 package lasers;
 
 public class Juego {
-    String nivelInicial = "level1.dat";
+    String nivelInicial = "level6.dat";
     private boolean estado;
     private Nivel nivel;
     private final VerificadorNivel verificador = new VerificadorNivel();

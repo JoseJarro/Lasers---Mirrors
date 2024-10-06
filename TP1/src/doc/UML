@@ -36,16 +36,6 @@ class Emisor{
 
 }
 
-class Objetivo{
-
--posicionx : int
--posiciony : int
--estado : bool
-
-+objetivoAlcanzado()
-
-}
-
 class Celda{
 
 -posicionx :int
@@ -105,7 +95,6 @@ Juego "1" *--> "1" Nivel
 Nivel "1" *--> "n" Bloque
 Nivel "1" *--> "n" Celda
 Nivel "1" *--> "1" Emisor
-Nivel "1" *--> "n" Objetivo
 
 Bloque o--> ComportamientoBloque
 

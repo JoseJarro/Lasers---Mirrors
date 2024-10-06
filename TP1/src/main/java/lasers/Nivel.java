@@ -60,19 +60,19 @@ public class Nivel {
                 this.celdas.add(new Celda(posicion, false));
                 return;
             case 'F':
-                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_FIJO.esfijo(), TipoBloque.OPACO_FIJO.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_FIJO.esfijo(), TipoBloque.OPACO_FIJO.getComportamiento(),'F' ));
                 break;
             case 'B':
-                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_MOVIL.esfijo(), TipoBloque.OPACO_MOVIL.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_MOVIL.esfijo(), TipoBloque.OPACO_MOVIL.getComportamiento(),'B' ));
                 break;
             case 'R':
-                this.bloques.add(new Bloque(posicion, TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento(),'R' ));
                 break;
             case 'G':
-                this.bloques.add(new Bloque(posicion, TipoBloque.VIDRIO.esfijo(), TipoBloque.VIDRIO.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.VIDRIO.esfijo(), TipoBloque.VIDRIO.getComportamiento(),'G' ));
                 break;
             case 'C':
-                this.bloques.add(new Bloque(posicion, TipoBloque.CRISTAL.esfijo(), TipoBloque.CRISTAL.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.CRISTAL.esfijo(), TipoBloque.CRISTAL.getComportamiento(),'C' ));
                 break;
             default: return;
         }

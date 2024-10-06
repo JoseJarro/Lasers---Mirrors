@@ -1,0 +1,66 @@
+/*********************************************************************************************************************/
+/                                                   MODELO                                                            /
+/*********************************************************************************************************************/
+
+### CLASE JUEGO  ###
+La clase Juego se encarga de cargar el nivel correspondiente, verificar si el juego esta terminado y mover los bloques
+dentro del tablero.
+
+### CLASE NIVEL ###
+La clase Nivel construye el nivel a partir de los datos que se encuentran en el archivo level.dat correspondiente al
+nivel. Las instancias de esta clase contienen como atributos a las instancias de bloques, Celdas, Emisores y objetivos.
+
+### CLASE BLOQUE ###
+Es la clase encargada de gestionar el movimiento de los bloques y su comportamiento, contiene una implementación de la
+interfaz ComportamientoBloque que corresponde con el tipo de bloque que se desea generar, es decir, un bloque de tipo
+cristal  contiene una implementación de la interfaz ComportamientoBloqueCristal. De esta manera se implementa un patrón
+de diseño Strategy, el cual permitiría agregar nuevos tipos de bloques al juego sin tener que modificar el código de
+Bloque, solamente agregando nuevas implementaciones de la interfaz ComportamientoBloque.
+
+### CLASE CELDA ###
+
+La clase celda es la encargada de permitir o no alojar un bloque en una determinada posición, ya sea por que la en dicha
+posición no hay celda o por que dicha celda esta ocupada por otro bloque. El concepto de piso esta representado por una
+celda vacía, en la cual es susceptible de ser ocupada por un bloque.
+
+### CLASE COORDENADA ###
+
+Clase auxiliar que determina una coordenada del tablero
+
+### CLASE VECTOR2D ###
+
+Clase auxiliar que representa un vector de modulo uno, punto base, dirección y sentido. El punto base se logra a través
+de un atributo coordenada y la dirección y el sentido con un sistema de puntos cardinales. Por la naturaleza del juego
+solo se necesitan los puntos cardinales compuestos para indicar la dirección y el sentido, "NW", "NE", "SE" y "SW".
+
+### CLASE EMISOR ###
+
+Es la encargada de emitir el láser, para ello utiliza un grafo cuyas aristas no tienen peso y cada punto que recorre
+sobre el tablero de juego es un nodo.
+
+/*********************************************************************************************************************/
+/                                                INTERFAZ GRAFICA                                                     /
+/*********************************************************************************************************************/
+
+Para la interfaz grafica se utilizará un Sistema Modelo-Vista, donde permanecerán separados la implementación del modelo
+y de la vista, El modelo no tiene conocimiento de la vista y la vista contiene al modelo como atributo. De esta manera
+se podrá mantener separada la implementación realizada en el modelo en Java y en la vista JavaFx.
+
+/*********************************************************************************************************************/
+/                                                  STRATEGY                                                           /
+/*********************************************************************************************************************/
+
+El patrón Strategy sugiere que tomes esa clase que hace algo especifico de muchas formas diferentes y
+extraigas todos esos algoritmos para colocarlos en clases separadas llamadas estrategias.
+
+La clase original, llamada contexto, delega el trabajo a un objeto de estrategia vinculado en lugar de ejecutarlo por
+ u cuenta.
+
+La clase contexto no es responsable de seleccionar un algoritmo adecuado para la tarea. En lugar de eso, el cliente
+pasa la estrategia deseada a la clase contexto. De hecho, la clase contexto no sabe mucho acerca de las estrategias.
+
+ Funciona con todas las estrategias a través de la misma interfaz genérica, que solo expone un único método para
+ disparar el algoritmo encapsulado dentro de la estrategia seleccionada.
+
+De esta forma, el contexto se vuelve independiente de las estrategias concretas, así que puedes añadir nuevos
+algoritmos o modificar los existentes sin cambiar el código de la clase contexto o de otras estrategias.

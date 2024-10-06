@@ -2,22 +2,22 @@ package lasers.app;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
 import javafx.scene.paint.Color;
+
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
+
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
 import lasers.*;
 
 import java.io.File;
@@ -28,13 +28,14 @@ import java.util.List;
 public class LasersApp extends Application {
     @Override
     public void start(Stage escenario) {
-
         ListView<String> listaNiveles = agregarListaNiveles();
         listaNiveles.setOnMouseClicked(e -> handleCLic(e, listaNiveles));
-
+        
         Canvas grilla = crearGrilla();
+        Line laser = new Line(0,50,50,100);
+        laser.setStroke(Color.RED);
 
-        VBox cajaJuego = new VBox(grilla);
+        Pane cajaJuego = new Pane(grilla);
         cajaJuego.setPadding(new Insets(20));
         HBox contenedor = new HBox(listaNiveles, cajaJuego);
         Scene escena = new Scene(contenedor);
@@ -79,7 +80,7 @@ public class LasersApp extends Application {
         }
         return niveles;
     }
-
+    
     private Canvas crearGrilla() {
         Juego juego = new Juego();
         Nivel nivel = juego.getNivel();
@@ -92,6 +93,27 @@ public class LasersApp extends Application {
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0, 0, grilla.getWidth(), grilla.getHeight());
 
+
+        //ListBLOQUES
+        List<Bloque> bloques = nivel.getBloques();
+        for (Bloque bloque: bloques) {
+            var pos = bloque.getCoordenada();
+            var posicionX = (pos.getPosX()-1) * proporcion  + padding;
+            var posicionY = (pos.getPosY()-1) * proporcion  + padding;
+            if (bloque.getTipo() == 'F' ){
+                gc.setFill(Color.GREY);
+            }else if (bloque.getTipo()=='B'){
+                gc.setFill(Color.GREY);
+            }else if (bloque.getTipo()=='R'){
+                gc.setFill(Color.CYAN);
+            }else if (bloque.getTipo()=='G'){
+                gc.setFill(Color.LIGHTCYAN);
+            }else if (bloque.getTipo()=='C') {
+                gc.setFill(Color.LIGHTBLUE);
+            }
+            gc.fillRect(posicionX, posicionY, tamanioCelda, tamanioCelda);
+
+        }
 
         //CELDAS
         List<Celda> celdas = nivel.getCeldas();
@@ -130,25 +152,11 @@ public class LasersApp extends Application {
             gc.fillOval(posicionX, posicionY, radio*2, radio*2);
         }
 
-        List<Bloque> bloques = nivel.getBloques();
-        for (Bloque b: bloques) {
-            var pos = b.getCoordenada();
-            var posicionX = (pos.getPosX()-1) * proporcion  + padding;
-            var posicionY = (pos.getPosY()-1) * proporcion  + padding;
-            if (b.toString().equals("ESPEJO")) {
-                System.out.println("TRUEEEE");
-                gc.setFill(Color.DARKCYAN);
-            }
-            gc.fillRect(posicionX, posicionY, tamanioCelda, tamanioCelda);
 
-
-        }
 
         return grilla;
 
-        //ListBLOQUES
 
     }
-
 }
 

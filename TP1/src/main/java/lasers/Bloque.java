@@ -5,11 +5,13 @@ public class Bloque {
     private Coordenada posicion;
     private final boolean fijo;
     private final ComportamientoBloque comportamientoBloque;
+    private final char tipo;
 
-    Bloque(Coordenada posicion, boolean fijo, ComportamientoBloque comportamientoBloque){
+    Bloque(Coordenada posicion, boolean fijo, ComportamientoBloque comportamientoBloque,char tipo){
         this.posicion = posicion;
         this.comportamientoBloque = comportamientoBloque;
         this.fijo = fijo;
+        this.tipo=tipo;
 
     }
 
@@ -75,7 +77,10 @@ public class Bloque {
         return false;
     }
 
-    public Coordenada getCoordenada(){
+    public Coordenada getCoordenada() {
         return this.posicion;
     }
+
+    public char getTipo(){return this.tipo;}
+
 }

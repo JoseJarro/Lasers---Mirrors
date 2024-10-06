@@ -79,11 +79,7 @@ class BloqueTest {
     }
 
     @org.junit.jupiter.api.Test
-    void nombresBloque() {
-        Bloque bloque = new Bloque(new Coordenada(0,0), TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento());
-        System.out.println(bloque);
-//        if (bloque.toString().equals("OPACO_MOVIL")) {
-//        }
+    void tocaLaser() {
     }
 
 }

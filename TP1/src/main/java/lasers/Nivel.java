@@ -60,19 +60,19 @@ public class Nivel {
                 this.celdas.add(new Celda(posicion, false));
                 return;
             case 'F':
-                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_FIJO.esfijo(), TipoBloque.OPACO_FIJO.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_FIJO.esfijo(), TipoBloque.OPACO_FIJO.getComportamiento(),'F' ));
                 break;
             case 'B':
-                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_MOVIL.esfijo(), TipoBloque.OPACO_MOVIL.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.OPACO_MOVIL.esfijo(), TipoBloque.OPACO_MOVIL.getComportamiento(),'B' ));
                 break;
             case 'R':
-                this.bloques.add(new Bloque(posicion, TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento(),'R' ));
                 break;
             case 'G':
-                this.bloques.add(new Bloque(posicion, TipoBloque.VIDRIO.esfijo(), TipoBloque.VIDRIO.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.VIDRIO.esfijo(), TipoBloque.VIDRIO.getComportamiento(),'G' ));
                 break;
             case 'C':
-                this.bloques.add(new Bloque(posicion, TipoBloque.CRISTAL.esfijo(), TipoBloque.CRISTAL.getComportamiento() ));
+                this.bloques.add(new Bloque(posicion, TipoBloque.CRISTAL.esfijo(), TipoBloque.CRISTAL.getComportamiento(),'C' ));
                 break;
             default: return;
         }
@@ -91,19 +91,20 @@ public class Nivel {
     }
 
     public Boolean esNivelCompletado() {
-        var laser = new HashSet<>();
+        var objetivosCompletados = 0;
         for (Emisor emisor : this.emisores) {
-            for (Vector2D v: emisor.emitirLaser(this)) {
-                laser.add(v.getPosicion());
+            for (Coordenada objetivo : this.objetivos) {
+                if (emisor.emitirLaser(this).vertexSet().contains(new Vector2D(objetivo, ""))) {
+                    objetivosCompletados++;
+                }
             }
         }
-        for (Coordenada objetivo : this.objetivos) {
-            if (!(laser.contains(objetivo))) {
-                return false;
-            }
-        }
-        return true;
+        return objetivosCompletados >= this.objetivos.size();
     }
+
+    public Coordenada getDimension() {return dimension;}
+
+    public List<Coordenada> getObjetivos() {return objetivos;}
 
     public Boolean fueraDimension(Coordenada posicion) {
         if (posicion.getPosX() > this.dimension.getPosX() || posicion.getPosX() < 0) {

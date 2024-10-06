@@ -49,7 +49,7 @@ public class Vector2D {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vector2D otro = (Vector2D) o;
-        return this.posicion.equals(otro.posicion) && this.direccion.equals(otro.direccion);
+        return this.posicion.equals(otro.posicion); //&& this.direccion.equals(otro.direccion); //peligro
     }
 
     @Override

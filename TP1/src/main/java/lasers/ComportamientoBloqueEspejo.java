@@ -35,4 +35,5 @@ public class ComportamientoBloqueEspejo implements ComportamientoBloque {
         arregloVector[0] = padre;
         return arregloVector;
     }
+
 }

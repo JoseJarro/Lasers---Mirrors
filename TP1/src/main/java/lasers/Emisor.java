@@ -2,17 +2,21 @@ package lasers;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.Graph;
-import org.jgrapht.traverse.DepthFirstIterator;
 
 import java.util.*;
 
 public class Emisor {
     private final Coordenada posicion;
     private final String direccion;
+    private Graph<Vector2D, DefaultEdge> laser;
 
     public Emisor(Coordenada posicion, String direccion){
         this.posicion = posicion;
         this.direccion = direccion;
+    }
+
+    public Graph<Vector2D, DefaultEdge> getLaser(){
+        return laser;
     }
 
     public Coordenada getPosicion(){
@@ -23,32 +27,19 @@ public class Emisor {
         return this.direccion;
     }
 
-    public List<Vector2D> emitirLaser(Nivel nivel) {
-        Graph<Vector2D, DefaultEdge> grafoLaser = new SimpleGraph<>(DefaultEdge.class);
+    public Graph<Vector2D, DefaultEdge> emitirLaser(Nivel nivel) {
+        laser = new SimpleGraph<>(DefaultEdge.class);
         var inicio = new Vector2D(this.getPosicion(), this.getDireccion());
         var posGiros = new HashSet<Vector2D>();
-        grafoLaser.addVertex(inicio);
-        _emitirLaser(inicio, grafoLaser, nivel, posGiros);
-        System.out.println(grafoLaser);
-        return recorridoDFS(grafoLaser);
+        laser.addVertex(inicio);
+        _emitirLaser(inicio, laser, nivel, posGiros);
+        return laser;
     }
 
-    private List<Vector2D> recorridoDFS(Graph<Vector2D, DefaultEdge> grafo) {
-        var recorridoLaser = new ArrayList<Vector2D>();
-        var recorridoLaserIter = new DepthFirstIterator<>(grafo);
-        while (recorridoLaserIter.hasNext()) {
-            recorridoLaser.add(recorridoLaserIter.next());
-        }
-        System.out.println(recorridoLaser); //imprime recorrido DFS
-        return recorridoLaser;
-    }
 
     private void _emitirLaser(Vector2D padre, Graph<Vector2D, DefaultEdge> grafoLaser, Nivel nivel, Set<Vector2D> giros) {
         if (nivel.fueraDimension(padre.getPosicion())) {
             return;
-        }
-        if (padre.getPosicion().getPosX() == 5 && padre.getPosicion().getPosY() == 8) {
-            System.out.println("aaa");
         }
         var direccion = padre.getDireccion();
         for(Bloque bloque: nivel.getBloques()) {

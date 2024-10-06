@@ -8,16 +8,16 @@ public enum TipoBloque {
     OPACO_FIJO(new ComportamientoBloqueOpaco(),  true),
     OPACO_MOVIL(new ComportamientoBloqueOpaco(), false);
 
-    private  final ComportamientoBloque comportamientoBloque;
+    private final ComportamientoBloque comportamientoBloque;
     private final boolean fijo;
 
-   TipoBloque (ComportamientoBloque comportamientoBloque,  boolean fijo){
+    TipoBloque (ComportamientoBloque comportamientoBloque,  boolean fijo){
        this.comportamientoBloque = comportamientoBloque;
-       this.fijo=fijo;
+       this.fijo = fijo;
 
-   }
+    }
 
-   public  boolean esfijo() {return fijo;}
+    public  boolean esfijo() {return fijo;}
 
     public  ComportamientoBloque getComportamiento() {return comportamientoBloque;}
 

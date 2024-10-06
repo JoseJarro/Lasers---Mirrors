@@ -105,6 +105,10 @@ public class Nivel {
         return true;
     }
 
+    public Coordenada getDimension() {return dimension;}
+
+    public List<Coordenada> getObjetivos() {return objetivos;}
+
     public Boolean fueraDimension(Coordenada posicion) {
         if (posicion.getPosX() > this.dimension.getPosX() || posicion.getPosX() < 0) {
             return true;

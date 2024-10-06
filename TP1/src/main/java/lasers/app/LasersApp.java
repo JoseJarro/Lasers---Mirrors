@@ -1,4 +1,6 @@
 package lasers.app;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.Graph;
@@ -35,9 +37,7 @@ public class LasersApp extends Application {
 
 
 
-        Canvas grilla = crearGrilla(juego);
-        Line laser = new Line(0,50,50,100);
-        laser.setStroke(Color.RED);
+        Pane grilla = crearGrilla(juego);
         VBox cajaJuego = new VBox(grilla);
         cajaJuego.setPadding(new Insets(20));
 
@@ -87,16 +87,16 @@ public class LasersApp extends Application {
         return niveles;
     }
     
-    private Canvas crearGrilla(Juego juego) {
+    private Pane crearGrilla(Juego juego) {
         Nivel nivel = juego.getNivel();
         var dimension = nivel.getDimension();
         var proporcion = 30;
         var padding = 30;
         var tamanioCelda = 60;
-        Canvas grilla = new Canvas(dimension.getPosX()*proporcion + 2 * padding, dimension.getPosY()*proporcion + 2 * padding);
-        GraphicsContext gc = grilla.getGraphicsContext2D();
-        gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(0, 0, grilla.getWidth(), grilla.getHeight());
+        Pane grilla = new Pane();
+        Rectangle rect = new Rectangle(0, 0, dimension.getPosX()*proporcion + 2 * padding, dimension.getPosY()*proporcion + 2 * padding);
+        rect.setFill(Color.LIGHTGRAY);
+        grilla.getChildren().add(rect);
 
 
         //ListBLOQUES
@@ -105,38 +105,36 @@ public class LasersApp extends Application {
             var pos = bloque.getCoordenada();
             var posicionX = (pos.getPosX()-1) * proporcion  + padding;
             var posicionY = (pos.getPosY()-1) * proporcion  + padding;
+            rect = new Rectangle(posicionX, posicionY, tamanioCelda, tamanioCelda);
             if (bloque.getTipo() == 'F' ){
-                gc.setFill(Color.web("#506266"));
+                rect.setFill(Color.web("#506266"));
             }else if (bloque.getTipo()=='B'){
-                gc.setFill(Color.web("#506266"));
+                rect.setFill(Color.web("#506266"));
             }else if (bloque.getTipo()=='R'){
-                gc.setFill(Color.web("#0c7e7e"));
+                rect.setFill(Color.web("#0c7e7e"));
             }else if (bloque.getTipo()=='G'){
-                gc.setFill(Color.LIGHTCYAN);
+                rect.setFill(Color.LIGHTCYAN);
             }else if (bloque.getTipo()=='C') {
-                gc.setFill(Color.web("#13c8b5"));
+                rect.setFill(Color.web("#13c8b5"));
             }
-            gc.fillRect(posicionX, posicionY, tamanioCelda, tamanioCelda);
-
+            grilla.getChildren().add(rect);
         }
+
 
         //CELDAS
         List<Celda> celdas = nivel.getCeldas();
-        gc.setFill(Color.TRANSPARENT);
         for (Celda c: celdas) {
             var pos = c.getCoordenada();
             var posicionX = (pos.getPosX()-1) * proporcion  + padding;
             var posicionY = (pos.getPosY()-1) * proporcion  + padding;
-            gc.setStroke(Color.BLACK);
-            gc.setLineWidth(3);
-            gc.strokeRect(posicionX, posicionY, tamanioCelda, tamanioCelda);
-
+            rect = new Rectangle(posicionX,posicionY, tamanioCelda, tamanioCelda);
+            rect.setFill(Color.TRANSPARENT);
+            rect.setStroke(Color.BLACK);
+            rect.setStrokeWidth(3);
+            grilla.getChildren().add(rect);
         }
 
         //LASERS:
-        gc.setFill(Color.web("#fb0c06"));
-        gc.setStroke(Color.web("#fb0c06"));
-        gc.setLineWidth(3);
         for (Emisor e: nivel.getEmisores()) {
             var laser = e.emitirLaser(nivel);
             for (DefaultEdge arista : laser.edgeSet()) {
@@ -147,41 +145,43 @@ public class LasersApp extends Application {
 
                 var finX = fin.getPosX() * proporcion + padding;
                 var finY = fin.getPosY() * proporcion + padding;
-                gc.strokeLine(inicioX, inicioY, finX, finY);
+                var linea = new Line(inicioX, inicioY, finX, finY);
+                linea.setStroke(Color.web("#fb0c06"));
+                linea.setStrokeWidth(3);
+                grilla.getChildren().add(linea);
 
             }
         }
         //ListObjetivos
         var radio = 6;
         List<Coordenada> objetivos = nivel.getObjetivos();
-        gc.setFill(Color.WHITE);
         for (Coordenada o: objetivos) {
-            var posicionX = (o.getPosX() * proporcion) - radio + padding;
-            var posicionY = (o.getPosY() * proporcion) - radio + padding;
+            var posicionX = (o.getPosX() * proporcion) + padding;
+            var posicionY = (o.getPosY() * proporcion) + padding;
+            Circle circulo = new Circle(posicionX, posicionY, radio);
+            circulo.setFill(Color.WHITE);
             for (Emisor e: nivel.getEmisores()) {
                 var laser = e.emitirLaser(nivel).vertexSet();
                 if (laser.contains(new Vector2D(o, ""))) {
-                    gc.setFill(Color.web("#fb0c06"));
+                    circulo.setFill(Color.web("#fb0c06"));
                 }
             }
-            gc.fillOval(posicionX, posicionY, radio*2, radio*2);
-            gc.setFill(Color.WHITE);
-            gc.setStroke(Color.web("#fb0c06"));
-            gc.setLineWidth(3);
-            gc.strokeOval(posicionX, posicionY, radio*2, radio*2);
+            circulo.setStroke(Color.web("#fb0c06"));
+            circulo.setStrokeWidth(3);
+            grilla.getChildren().add(circulo);
         }
 
         //ListEmisores
         radio = 6;
         List<Emisor> emisores = nivel.getEmisores();
-        gc.setFill(Color.web("#fb0c06"));
         for (Emisor e: emisores) {
             var posicion = e.getPosicion();
-            var posicionX = (posicion.getPosX() * proporcion) - radio + padding;
-            var posicionY = (posicion.getPosY() * proporcion) - radio + padding;
-            gc.fillOval(posicionX, posicionY, radio*2, radio*2);
+            var posicionX = (posicion.getPosX() * proporcion) + padding;
+            var posicionY = (posicion.getPosY() * proporcion) + padding;
+            var circulo = new Circle(posicionX, posicionY, radio);
+            circulo.setFill(Color.web("#fb0c06"));
+            grilla.getChildren().add(circulo);
         }
-
 
 
 

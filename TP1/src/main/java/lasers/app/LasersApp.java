@@ -8,7 +8,7 @@ public class LasersApp extends Application {
     @Override
     public void start(Stage escenario) {
         Juego juego = new Juego();
-        JuegoView juegoView = new JuegoView(escenario, juego);
+        JuegoView _ = new JuegoView(escenario, juego);
     }
 
     public static void main(String[] args) {

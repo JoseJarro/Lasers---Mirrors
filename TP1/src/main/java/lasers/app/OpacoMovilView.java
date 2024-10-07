@@ -2,9 +2,10 @@ package lasers.app;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import lasers.*;
 
-public class OpacoMovilView {
+public class OpacoMovilView implements View {
     private final Rectangle rect;
 
     public OpacoMovilView(Bloque bloque, Integer escala) {
@@ -17,13 +18,10 @@ public class OpacoMovilView {
         rect.setFill(Color.web("#506266"));
         rect.setStroke(Color.BLACK);
         rect.setStrokeWidth(3);
-
-        rect.setOnMouseClicked(e -> {
-            System.out.println(posicion.getPosX() + "," + posicion.getPosY());
-        });
     }
 
-    public Rectangle forma() {
+    @Override
+    public Shape render() {
         return rect;
     }
 

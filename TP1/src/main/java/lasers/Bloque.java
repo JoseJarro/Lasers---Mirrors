@@ -22,6 +22,9 @@ public class Bloque {
         }
     }
 
+    public Boolean esFijo() {
+        return fijo;
+    }
 
     private Integer obtenerCaraColisionada(Vector2D padre) {
         int cara = -1;

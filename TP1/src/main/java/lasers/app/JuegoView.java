@@ -8,13 +8,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lasers.*;
-
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,7 +25,9 @@ public class JuegoView extends Group {
         cajaJuego.setPadding(new Insets(20));
 
         ListView<String> listaNiveles = agregarListaNiveles();
-        listaNiveles.setOnMouseClicked(e -> {
+        listaNiveles.setPrefWidth(150);
+        listaNiveles.setStyle("-fx-font-size: 16px;");
+        listaNiveles.setOnMouseClicked(_ -> {
             int idx = listaNiveles.getSelectionModel().getSelectedIndex();
             if (idx >= 0) {
                 String elemento = listaNiveles.getItems().get(idx) + ".dat";
@@ -70,99 +68,112 @@ public class JuegoView extends Group {
     }
 
     private Pane crearGrilla(Juego juego) {
+        Pane grilla = new Pane();
         Nivel nivel = juego.getNivel();
         var dimension = nivel.getDimension();
         var escala = 30;
         var tamanioCelda = escala * 2;
-        var padding = tamanioCelda / 2;
         var nivelCompleto = juego.juegoTerminado();
-        Pane grilla = new Pane();
         var ancho = dimension.getPosX()*escala + tamanioCelda;
         var alto = dimension.getPosY()*escala + tamanioCelda;
-        Rectangle rect = new Rectangle(0, 0, ancho, alto);
+        List<View> formas = new ArrayList<>();
+        formas.add(crearFondo(nivelCompleto, ancho, alto, grilla));
+        formas.addAll(crearCeldas(nivel, escala));
+        formas.addAll(crearBloques(nivel, escala));
+        formas.addAll(crearLasers(nivel, escala));
+        formas.addAll(crearObjetivos(nivel, escala));
+        formas.addAll(crearEmisores(nivel, escala));
+        for (View forma : formas) {
+            grilla.getChildren().add(forma.render());
+        }
+        manejarEventosGrilla(grilla, juego, tamanioCelda);
+        return grilla;
+    }
+
+    private View crearFondo(Boolean nivelCompleto, Integer ancho, Integer alto, Pane grilla) {
+        View fondo;
         if (nivelCompleto) {
-            rect.setFill(Color.LIGHTGREEN);
+            fondo = new GrillaView(Color.LIGHTGREEN, ancho, alto);
             grilla.setMouseTransparent(true);
         }
         else{
-            rect.setFill(Color.LIGHTGRAY);
+            fondo = new GrillaView(Color.LIGHTGRAY, ancho, alto);
         }
+        return fondo;
+    }
 
-
-        List<Shape> formas = new ArrayList<>();
-        formas.add(rect);
+    private List<View> crearCeldas(Nivel nivel, Integer escala) {
+        List<View> formas = new ArrayList<>();
         for (Celda c: nivel.getCeldas()) {
-            formas.add((new CeldaView(c, escala)).forma());
+            formas.add((new CeldaView(c, escala)));
         }
+        return formas;
+    }
+
+    private List<View> crearBloques(Nivel nivel, Integer escala) {
+        List<View> formas = new ArrayList<>();
         for (Bloque bloque: nivel.getBloques()) {
-            if (bloque.getTipo() == 'F' ){
-                formas.add((new OpacoFijoView(bloque, escala)).forma());
-            } else if (bloque.getTipo()=='B'){
-                formas.add((new OpacoMovilView(bloque, escala)).forma());
-            }else if (bloque.getTipo()=='R'){
-                formas.add((new EspejoView(bloque, escala)).forma());
-            }else if (bloque.getTipo()=='G'){
-                formas.add((new VidrioView(bloque, escala)).forma());
-            }else if (bloque.getTipo()=='C') {
-                formas.add((new CristalView(bloque, escala)).forma());
+            switch (bloque.getTipo()) {
+                case 'F' : formas.add((new OpacoFijoView(bloque, escala))); break;
+                case 'B' : formas.add((new OpacoMovilView(bloque, escala))); break;
+                case 'R' : formas.add((new EspejoView(bloque, escala))); break;
+                case 'G' : formas.add((new VidrioView(bloque, escala))); break;
+                case 'C' : formas.add((new CristalView(bloque, escala))); break;
             }
         }
+        return formas;
+    }
 
+    private List<View> crearLasers(Nivel nivel, Integer escala) {
+        List<View> formas = new ArrayList<>();
         for (Emisor e: nivel.getEmisores()) {
-            var laser = new LaserView(nivel, e, escala).forma();
+            var laser = new LaserView(nivel, e, escala).mostrarCamino();
             formas.addAll(laser);
         }
+        return formas;
+    }
+
+    private List<View> crearObjetivos(Nivel nivel, Integer escala) {
+        List<View> formas = new ArrayList<>();
         for (Coordenada o: nivel.getObjetivos()) {
-            formas.add((new ObjetivoView(nivel, o, escala)).forma());
+            formas.add((new ObjetivoView(nivel, o, escala)));
         }
+        return formas;
+    }
+
+    private List<View> crearEmisores(Nivel nivel, Integer escala) {
+        List<View> formas = new ArrayList<>();
         for (Emisor e: nivel.getEmisores()) {
-            formas.add((new EmisorView(e.getPosicion(), escala)).forma());
+            formas.add((new EmisorView(e.getPosicion(), escala)));
         }
+        return formas;
+    }
 
-        Rectangle tapa = new Rectangle(0, 0, ancho, alto);
-        tapa.setFill(Color.TRANSPARENT);
-
-
+    private void manejarEventosGrilla(Pane grilla, Juego juego, Integer tamanioCelda) {
         var posInicial = new Coordenada(0,0);
         grilla.setOnMousePressed(e -> {
-            var inicioX = (int) e.getX() - padding;
-            var inicioY = (int) e.getY() - padding;
-            inicioX = (inicioX / 60) * 2 + 1;
-            inicioY = (inicioY / 60) * 2 + 1;
-
-            posInicial.setPosX(inicioX);
-            posInicial.setPosY(inicioY);
-            System.out.println(inicioX + "," + inicioY);
+            Coordenada pos = calcularPosicionMouse(e.getX(), e.getY(), tamanioCelda);
+            posInicial.setPosX(pos.getPosX());
+            posInicial.setPosY(pos.getPosY());
         });
 
         grilla.setOnMouseReleased(e -> {
-            var finalX = (int) e.getX() - padding;
-            var finalY = (int) e.getY() - padding;
-            finalX = (finalX / 60) * 2 + 1;
-            finalY = (finalY / 60) * 2 + 1;
-
-            var posFinal = new Coordenada(finalX, finalY);
-
-
+            Coordenada posFinal = calcularPosicionMouse(e.getX(), e.getY(), tamanioCelda);
 
             juego.validoMoverBloque(posInicial, posFinal);
             var nivelActualizado = crearGrilla(juego);
             VBox cajaJuego = (VBox) grilla.getParent();
             cajaJuego.getChildren().setAll(nivelActualizado);
-            System.out.println(finalX + "," + finalY);
-
-
         });
-
-        formas.add(tapa);
-
-        for (Shape forma : formas) {
-            grilla.getChildren().add(forma);
-        }
-
-        return grilla;
-
 
     }
 
+    private Coordenada calcularPosicionMouse(double x, double y, Integer tamanioCelda) {
+        var padding = tamanioCelda / 2;
+        var posX = (int) x - padding;
+        var posY = (int) y - padding;
+        posX = (posX / 60) * 2 + 1;
+        posY = (posY / 60) * 2 + 1;
+        return new Coordenada(posX, posY);
+    }
 }

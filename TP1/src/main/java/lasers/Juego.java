@@ -39,7 +39,6 @@ public class Juego {
     }
 
     public boolean juegoTerminado(){
-        System.out.println(nivel.esNivelCompletado());
         return nivel.esNivelCompletado();
     }
 

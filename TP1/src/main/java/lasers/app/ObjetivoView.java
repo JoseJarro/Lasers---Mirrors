@@ -2,12 +2,13 @@ package lasers.app;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import lasers.Coordenada;
 import lasers.Emisor;
 import lasers.Nivel;
 import lasers.Vector2D;
 
-public class ObjetivoView {
+public class ObjetivoView implements View{
     private final Circle objetivo;
 
     public ObjetivoView(Nivel nivel, Coordenada posicion, Integer escala) {
@@ -26,7 +27,8 @@ public class ObjetivoView {
         objetivo.setStrokeWidth(3);
     }
 
-    public Circle forma() {
+    @Override
+    public Shape render() {
         return objetivo;
     }
 }

@@ -18,6 +18,8 @@ public class CristalView {
         var posicionY = (posicion.getPosY()-1) * escala  + padding;
         rect = new Rectangle(posicionX, posicionY, tamanioCelda, tamanioCelda);
         rect.setFill(Color.web("#13c8b5"));
+        rect.setStroke(Color.BLACK);
+        rect.setStrokeWidth(3);
 
         rect.setOnMouseClicked(e -> {
             System.out.println(posicion.getPosX() + "," + posicion.getPosY());

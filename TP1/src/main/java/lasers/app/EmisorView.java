@@ -2,12 +2,9 @@ package lasers.app;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import lasers.Coordenada;
-import lasers.Emisor;
-import lasers.Nivel;
-import lasers.Vector2D;
 
 public class EmisorView {
-    private Circle emisor;
+    private final Circle emisor;
 
     public EmisorView(Coordenada posicion, Integer escala) {
         var radio = 6;

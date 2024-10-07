@@ -81,6 +81,14 @@ class BloqueTest {
 //    }
 
     @org.junit.jupiter.api.Test
-    void tocaLaser() {}
+    void tocaLaser() {
+        var juego = new Juego();
+        var nivel = juego.getNivel();
+        juego.validoMoverBloque(new Coordenada(5,1), new Coordenada(5,3));
+        juego.validoMoverBloque(new Coordenada(5,3), new Coordenada(5,5));
+        juego.validoMoverBloque(new Coordenada(5,5), new Coordenada(5,3));
+        juego.validoMoverBloque(new Coordenada(5,3), new Coordenada(5,1));
+        juego.cambiarNivel("level2.dat");
+    }
 
 }

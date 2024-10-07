@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 import lasers.*;
 
 public class CeldaView {
-    private Coordenada posicion;
+    private final Coordenada posicion;
     private final Rectangle rect;
 
     public CeldaView(Celda celda, Integer escala) {

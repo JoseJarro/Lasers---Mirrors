@@ -76,7 +76,7 @@ public class Nivel {
                 break;
             default: return;
         }
-        this.celdas.add(new Celda(posicion, true));
+        this.celdas.add(new Celda(posicion.clonar(), true));
     }
 
     private void crearElementos(String[] valores) {
@@ -113,12 +113,30 @@ public class Nivel {
         else return posicion.getPosY() > this.dimension.getPosY() || posicion.getPosY() < 0;
     }
 
-    public void moverBloque(Coordenada posInicial, Coordenada posFinal){
-        for (Bloque bloque : this.bloques){
-            Coordenada posBloque = bloque.getCoordenada();
-            if (posInicial.equals(posBloque)) {
-                bloque.moverBloque(posFinal.getPosX(), posFinal.getPosY());
+    public void moverBloque(Celda inicial, Celda fin) {
+        Bloque bloqueInicial = null;
+        Bloque bloqueFinal = null;
+        for (Bloque bloque : bloques) {
+            var posBloque = bloque.getCoordenada();
+            if (posBloque.equals(inicial.getCoordenada())) {
+                bloqueInicial = bloque;
             }
+            else if (posBloque.equals(fin.getCoordenada())) {
+                bloqueFinal = bloque;
+            }
+        }
+        if (bloqueInicial == null) {
+            return;
+        }
+        var posInicial = inicial.getCoordenada().clonar();
+        var posFinal = fin.getCoordenada().clonar();
+        if (!fin.getOcupado()) {
+            inicial.desocupar();
+            fin.ocupar();
+            bloqueInicial.moverBloque(posFinal.getPosX(), posFinal.getPosY());
+        } else {
+            bloqueInicial.moverBloque(posFinal.getPosX(), posFinal.getPosY());
+            bloqueFinal.moverBloque(posInicial.getPosX(), posInicial.getPosY());
         }
     }
 

@@ -8,7 +8,7 @@ import lasers.Nivel;
 import lasers.Vector2D;
 
 public class ObjetivoView {
-    private Circle objetivo;
+    private final Circle objetivo;
 
     public ObjetivoView(Nivel nivel, Coordenada posicion, Integer escala) {
         var radio = 6;

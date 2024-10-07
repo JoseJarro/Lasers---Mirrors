@@ -1,22 +1,18 @@
 package lasers.app;
 
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import lasers.*;
 
 public class OpacoFijoView {
-    private Coordenada posicion;
     private final Path grupo;
 
     public OpacoFijoView(Bloque bloque, Integer escala) {
         var tamanioCelda = escala * 2;
         var padding = tamanioCelda / 2;
-        posicion = bloque.getCoordenada();
+        var posicion = bloque.getCoordenada();
         var posicionX = (posicion.getPosX()-1) * escala  + padding;
         var posicionY = (posicion.getPosY()-1) * escala  + padding;
 
@@ -35,6 +31,7 @@ public class OpacoFijoView {
 
         grupo.setFill(Color.web("#506266"));
         grupo.setStroke(Color.BLACK);
+        grupo.setStrokeWidth(3);
 
         grupo.setOnMouseClicked(e -> {
             System.out.println(posicion.getPosX() + "," + posicion.getPosY());

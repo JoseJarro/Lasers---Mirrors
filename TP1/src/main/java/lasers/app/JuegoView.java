@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import lasers.*;
 
 import javafx.scene.Group;
-
+import javafx.scene.paint.Color;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,10 +22,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class JuegoView extends Group {
-    private final Juego juego;
 
     public JuegoView(Stage escenario, Juego juego) {
-        this.juego = juego;
         Pane grilla = crearGrilla(juego);
         VBox cajaJuego = new VBox(grilla);
         cajaJuego.setPadding(new Insets(20));
@@ -77,11 +75,18 @@ public class JuegoView extends Group {
         var escala = 30;
         var tamanioCelda = escala * 2;
         var padding = tamanioCelda / 2;
+        var nivelCompleto = juego.juegoTerminado();
         Pane grilla = new Pane();
         var ancho = dimension.getPosX()*escala + tamanioCelda;
         var alto = dimension.getPosY()*escala + tamanioCelda;
         Rectangle rect = new Rectangle(0, 0, ancho, alto);
-        rect.setFill(Color.LIGHTGRAY);
+        if (nivelCompleto) {
+            rect.setFill(Color.LIGHTGREEN);
+            grilla.setMouseTransparent(true);
+        }
+        else{
+            rect.setFill(Color.LIGHTGRAY);
+        }
 
 
         List<Shape> formas = new ArrayList<>();
@@ -117,8 +122,9 @@ public class JuegoView extends Group {
         Rectangle tapa = new Rectangle(0, 0, ancho, alto);
         tapa.setFill(Color.TRANSPARENT);
 
+
         var posInicial = new Coordenada(0,0);
-        tapa.setOnMousePressed(e -> {
+        grilla.setOnMousePressed(e -> {
             var inicioX = (int) e.getX() - padding;
             var inicioY = (int) e.getY() - padding;
             inicioX = (inicioX / 60) * 2 + 1;
@@ -129,7 +135,7 @@ public class JuegoView extends Group {
             System.out.println(inicioX + "," + inicioY);
         });
 
-        tapa.setOnMouseReleased(e -> {
+        grilla.setOnMouseReleased(e -> {
             var finalX = (int) e.getX() - padding;
             var finalY = (int) e.getY() - padding;
             finalX = (finalX / 60) * 2 + 1;
@@ -137,11 +143,15 @@ public class JuegoView extends Group {
 
             var posFinal = new Coordenada(finalX, finalY);
 
-            juego.moverBloque(posInicial, posFinal);
+
+
+            juego.validoMoverBloque(posInicial, posFinal);
             var nivelActualizado = crearGrilla(juego);
             VBox cajaJuego = (VBox) grilla.getParent();
             cajaJuego.getChildren().setAll(nivelActualizado);
             System.out.println(finalX + "," + finalY);
+
+
         });
 
         formas.add(tapa);

@@ -4,9 +4,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Shape;
 import lasers.*;
 
-public class OpacoFijoView {
+public class OpacoFijoView implements View{
     private final Path grupo;
 
     public OpacoFijoView(Bloque bloque, Integer escala) {
@@ -32,13 +33,10 @@ public class OpacoFijoView {
         grupo.setFill(Color.web("#506266"));
         grupo.setStroke(Color.BLACK);
         grupo.setStrokeWidth(3);
-
-        grupo.setOnMouseClicked(e -> {
-            System.out.println(posicion.getPosX() + "," + posicion.getPosY());
-        });
     }
 
-    public Path forma() {
+    @Override
+    public Shape render() {
         return grupo;
     }
 

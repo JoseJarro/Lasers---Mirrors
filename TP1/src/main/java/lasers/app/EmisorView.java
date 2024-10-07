@@ -1,9 +1,10 @@
 package lasers.app;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import lasers.Coordenada;
 
-public class EmisorView {
+public class EmisorView implements View{
     private final Circle emisor;
 
     public EmisorView(Coordenada posicion, Integer escala) {
@@ -14,7 +15,8 @@ public class EmisorView {
         emisor.setFill(Color.web("#fb0c06"));
     }
 
-    public Circle forma() {
+    @Override
+    public Shape render() {
         return emisor;
     }
 }

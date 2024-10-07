@@ -91,15 +91,19 @@ public class Nivel {
     }
 
     public Boolean esNivelCompletado() {
-        var objetivosCompletados = 0;
-        for (Emisor emisor : this.emisores) {
-            for (Coordenada objetivo : this.objetivos) {
-                if (emisor.emitirLaser(this).vertexSet().contains(new Vector2D(objetivo, ""))) {
-                    objetivosCompletados++;
+        for (Coordenada objetivo : this.objetivos) {
+            var encontrado = false;
+            for (Emisor emisor : this.emisores) {
+                var puntosLaser = emisor.emitirLaser(this).vertexSet();
+                if (puntosLaser.contains(new Vector2D(objetivo, ""))) {
+                    encontrado = true;
                 }
             }
+            if (!encontrado) {
+                return false;
+            }
         }
-        return objetivosCompletados >= this.objetivos.size();
+        return true;
     }
 
     public Coordenada getDimension() {return dimension;}
@@ -130,11 +134,11 @@ public class Nivel {
         }
         var posInicial = inicial.getCoordenada().clonar();
         var posFinal = fin.getCoordenada().clonar();
-        if (!fin.getOcupado()) {
+        if (bloqueFinal == null) {
             inicial.desocupar();
             fin.ocupar();
             bloqueInicial.moverBloque(posFinal.getPosX(), posFinal.getPosY());
-        } else {
+        } else if (!bloqueFinal.esFijo() && !bloqueInicial.esFijo()) {
             bloqueInicial.moverBloque(posFinal.getPosX(), posFinal.getPosY());
             bloqueFinal.moverBloque(posInicial.getPosX(), posInicial.getPosY());
         }

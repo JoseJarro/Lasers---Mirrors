@@ -1,8 +1,5 @@
 package lasers.app;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Path;
 import lasers.Emisor;
 import lasers.Nivel;
 import org.jgrapht.graph.DefaultEdge;
@@ -11,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LaserView {
-    private Emisor emisor;
-    private List<Line> camino = new ArrayList<>();
+    private final List<View> camino = new ArrayList<>();
+
     public LaserView(Nivel nivel, Emisor emisor, Integer escala) {
-        this.emisor = emisor;
         var laser = emisor.emitirLaser(nivel);
         for (DefaultEdge arista : laser.edgeSet()) {
             var inicio = laser.getEdgeSource(arista).getPosicion();
@@ -23,14 +19,12 @@ public class LaserView {
             var inicioY = (inicio.getPosY()+1) * escala;
             var finX = (fin.getPosX()+1) * escala;
             var finY = (fin.getPosY()+1) * escala;
-            var trazo = new Line(inicioX, inicioY, finX, finY);
-            trazo.setStroke(Color.web("#fb0c06"));
-            trazo.setStrokeWidth(3);
+            View trazo = new CaminoLaserView(inicioX, inicioY, finX, finY);
             camino.add(trazo);
         }
     }
 
-    public List<Line> forma() {
+    public List<View> mostrarCamino() {
         return camino;
     }
 }

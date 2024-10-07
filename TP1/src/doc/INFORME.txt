@@ -64,3 +64,20 @@ pasa la estrategia deseada a la clase contexto. De hecho, la clase contexto no s
 
 De esta forma, el contexto se vuelve independiente de las estrategias concretas, así que puedes añadir nuevos
 algoritmos o modificar los existentes sin cambiar el código de la clase contexto o de otras estrategias.
+
+
+/*********************************************************************************************************************/
+/                                              OPORTUNIDADES DE MEJORA                                                /
+/*********************************************************************************************************************/
+
+1 - La clase Celda es una clase anémica ya que tiene como dato la corrdenada  y el atributo esta ocupada, esta clase
+podría ser reemplazada por un diccionario con las corrdendas en la cuales esta la celda y un booleano que indique si
+esta ocupada o no.
+
+
+2- KISS, El Laser es modelado como un grafo, y depende de la libreria graph de java, se podría haber hecho un modelo mas
+sencillo para implementar el laser.
+
+3-SRP, La clase Nivel tiene muhcos metodos publicos.
+
+

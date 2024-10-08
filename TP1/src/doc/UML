@@ -1,31 +1,28 @@
 @startuml
 
-class Juego{              
+class Juego{
 
-
--contadorTurnos : int
+-nivel : obj[]
 -estado : bool
 
 
 +cambiarNivel()
-+verificarEstado()
- 
++juegoTerminado()
+
 }
 
 class Nivel{
 
--celdas : obj[] 
+-celdas : obj[]
 -bloques : obj[]
 -emisor : obj
 -ovjetivos[]
--nivel : obj[]
 
 +crearNivel()
 -crearEmisor()
 -crearObjetivos()
 -crearCeldas()
 -crearBloques()
-+pasarTurno()
 
 }
 
@@ -39,99 +36,71 @@ class Emisor{
 
 }
 
-class Objetivo{
-
--posicionx : int
--posiciony : int
--estado : bool
-
-+objetivoAlcanzado()
-
-}
-
 class Celda{
 
 -posicionx :int
 -posiciony : int
--piso : bool
+-ocupado : bool
 
-+esPiso()
++getOcupado()
 
 }
 
-interface Bloque{
+class Bloque{
 
 -posicionx : int
 -posiciony : int
 
-}
-
-
-class BloqueOpacoFijo{
-
-+ comportamientoBloque()
-
-}
-
-
-class BloqueOpacoMovil{
-
 + moverBloque()
 + comportamientoBloque()
 
 }
 
-class BloqueEspejo{
+interface ComportamientoBloque{
 
-+ moverBloque()
 + comportamientoBloque()
 
 }
 
-class BloqueVidrio{
 
-+ moverBloque()
+class ComportamientoBloqueOpaco{
+
 + comportamientoBloque()
 
 }
 
-class BloqueCristal{
 
-+ moverBloque()
+
+
+class ComportamientoBloqueEspejo{
+
 + comportamientoBloque()
 
 }
 
-interface elemento{
+class ComportamientoBloqueVidrio{
 
--posicionx
--posiciony
++ comportamientoBloque()
+
 }
 
-interface BloqueMovil{
-+mover()
+class ComportamientoBloqueCristal{
+
++ comportamientoBloque()
+
 }
 
 Juego "1" *--> "1" Nivel
 
-Nivel "1" *--> "n" elemento
-
 Nivel "1" *--> "n" Bloque
-elemento "1" ..|> "n" Celda
-elemento "1" ..|> "1" Emisor
-elemento "1" ..|> "n" Objetivo
+Nivel "1" *--> "n" Celda
+Nivel "1" *--> "1" Emisor
 
-BloqueOpacoFijo ---|> Bloque
-BloqueOpacoMovil ---|> Bloque
-BloqueEspejo ---|> Bloque
-BloqueVidrio ---|> Bloque
-BloqueCristal ---|> Bloque
+Bloque o--> ComportamientoBloque
 
-
-BloqueOpacoMovil ..|> BloqueMovil
-BloqueEspejo ..|> BloqueMovil
-BloqueVidrio ..|> BloqueMovil
-BloqueCristal ..|> BloqueMovil
-
+ComportamientoBloqueOpaco ..|> ComportamientoBloque
+ComportamientoBloqueEspejo ..|> ComportamientoBloque
+ComportamientoBloqueVidrio ..|> ComportamientoBloque
+ComportamientoBloqueCristal ..|> ComportamientoBloque
 
 @enduml

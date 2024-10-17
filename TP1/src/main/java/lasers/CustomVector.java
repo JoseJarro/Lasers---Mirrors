@@ -2,11 +2,11 @@ package lasers;
 
 import java.util.Objects;
 
-public class Vector2D {
+public class CustomVector {
     private final Coordenada posicion;
     private String direccion;
 
-    public Vector2D(Coordenada posicion, String direccion) {
+    public CustomVector(Coordenada posicion, String direccion) {
         this.posicion = posicion;
         this.direccion = direccion;
     }
@@ -24,32 +24,32 @@ public class Vector2D {
     public void moverDireccion() {
         Coordenada posicion = this.getPosicion();
         switch (this.getDireccion()) {
-            case "SE":
+            case Direccion.SURESTE:
                 posicion.setPosX(posicion.getPosX() + 1);
                 posicion.setPosY(posicion.getPosY() + 1);
                 break;
-            case "SW":
+            case Direccion.SUROESTE:
                 posicion.setPosX(posicion.getPosX() - 1);
                 posicion.setPosY(posicion.getPosY() + 1);
                 break;
-            case "NE":
+            case Direccion.NORESTE:
                 posicion.setPosX(posicion.getPosX() + 1);
                 posicion.setPosY(posicion.getPosY() - 1);
                 break;
-            case "NW":
+            case Direccion.NOROESTE:
                 posicion.setPosX(posicion.getPosX() - 1);
                 posicion.setPosY(posicion.getPosY() - 1);
                 break;
             default: System.out.println("Error. Salida no hay direccion");
-        };
+        }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Vector2D otro = (Vector2D) o;
-        return this.posicion.equals(otro.posicion); //&& this.direccion.equals(otro.direccion); //peligro
+        CustomVector otro = (CustomVector) o;
+        return this.posicion.equals(otro.posicion);
     }
 
     @Override
@@ -57,11 +57,11 @@ public class Vector2D {
         return Objects.hash(posicion);
     }
 
-    public Vector2D clonar() {
+    public CustomVector clonar() {
         var x = this.posicion.getPosX();
         var y = this.posicion.getPosY();
         var dir = this.direccion;
-        return new Vector2D(new Coordenada(x, y), dir);
+        return new CustomVector(new Coordenada(x, y), dir);
     }
 
     @Override

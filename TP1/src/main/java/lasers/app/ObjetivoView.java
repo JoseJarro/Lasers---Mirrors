@@ -6,7 +6,7 @@ import javafx.scene.shape.Shape;
 import lasers.Coordenada;
 import lasers.Emisor;
 import lasers.Nivel;
-import lasers.Vector2D;
+import lasers.CustomVector;
 
 public class ObjetivoView implements View{
     private final Circle objetivo;
@@ -19,7 +19,7 @@ public class ObjetivoView implements View{
         objetivo.setFill(Color.WHITE);
         for (Emisor e: nivel.getEmisores()) {
             var laser = e.emitirLaser(nivel).vertexSet();
-            if (laser.contains(new Vector2D(posicion, ""))) {
+            if (laser.contains(new CustomVector(posicion, ""))) {
                 objetivo.setFill(Color.web("#fb0c06"));
             }
         }

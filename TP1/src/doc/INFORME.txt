@@ -7,8 +7,9 @@ La clase Juego se encarga de cargar el nivel correspondiente, verificar si el ju
 dentro del tablero.
 
 ### CLASE NIVEL ###
-La clase Nivel construye el nivel a partir de los datos que se encuentran en el archivo level.dat correspondiente al
-nivel. Las instancias de esta clase contienen como atributos a las instancias de bloques, Celdas, Emisores y objetivos.
+Las instancias de esta clase contienen como atributos a las instancias de bloques, Celdas, Emisores y objetivos.
+Se le ha agregado una nueva clase auxiliar. La clase de LevelLoader se encarga de leer el archivo nivel.dat 
+y cargar todos los objetos que encuentre.
 
 ### CLASE BLOQUE ###
 Es la clase encargada de gestionar el movimiento de los bloques y su comportamiento, contiene una implementación de la
@@ -18,23 +19,19 @@ de diseño Strategy, el cual permitiría agregar nuevos tipos de bloques al jueg
 Bloque, solamente agregando nuevas implementaciones de la interfaz ComportamientoBloque.
 
 ### CLASE CELDA ###
-
 La clase celda es la encargada de permitir o no alojar un bloque en una determinada posición, ya sea por que la en dicha
 posición no hay celda o por que dicha celda esta ocupada por otro bloque. El concepto de piso esta representado por una
 celda vacía, en la cual es susceptible de ser ocupada por un bloque.
 
 ### CLASE COORDENADA ###
-
 Clase auxiliar que determina una coordenada del tablero
 
-### CLASE VECTOR2D ###
-
+### CLASE CUSTOMVECTOR ###
 Clase auxiliar que representa un vector de modulo uno, punto base, dirección y sentido. El punto base se logra a través
 de un atributo coordenada y la dirección y el sentido con un sistema de puntos cardinales. Por la naturaleza del juego
 solo se necesitan los puntos cardinales compuestos para indicar la dirección y el sentido, "NW", "NE", "SE" y "SW".
 
 ### CLASE EMISOR ###
-
 Es la encargada de emitir el láser, para ello utiliza un grafo cuyas aristas no tienen peso y cada punto que recorre
 sobre el tablero de juego es un nodo.
 
@@ -43,7 +40,7 @@ sobre el tablero de juego es un nodo.
 /*********************************************************************************************************************/
 
 Para la interfaz grafica se utilizará un Sistema Modelo-Vista, donde permanecerán separados la implementación del modelo
-y de la vista, El modelo no tiene conocimiento de la vista y la vista contiene al modelo como atributo. De esta manera
+y de la vista. El modelo no tiene conocimiento de la vista y la vista contiene al modelo como atributo. De esta manera
 se podrá mantener separada la implementación realizada en el modelo en Java y en la vista JavaFx.
 
 /*********************************************************************************************************************/
@@ -71,11 +68,10 @@ algoritmos o modificar los existentes sin cambiar el código de la clase context
 /*********************************************************************************************************************/
 
 1 - La clase Celda es una clase anémica ya que tiene como dato la corrdenada  y el atributo esta ocupada, esta clase
-podría ser reemplazada por un diccionario con las corrdendas en la cuales esta la celda y un booleano que indique si
+podría ser reemplazada por un diccionario con las coordenadas en la cuales esta la celda y un booleano que indique si
 esta ocupada o no.
 
-
-2- KISS, El Laser es modelado como un grafo, y depende de la libreria graph de java, se podría haber hecho un modelo mas
+2- KISS, El Laser es modelado como un grafo, y depende de la libreria Jgrapht de Java, se podría haber hecho un modelo mas
 sencillo para implementar el laser.
 
 3-SRP, La clase Nivel tiene muhcos metodos publicos.

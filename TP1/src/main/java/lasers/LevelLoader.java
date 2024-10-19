@@ -64,25 +64,14 @@ public class LevelLoader {
                 nivel.agregarCelda(new Celda(posicion, false));
                 return;
         }
-        Bloque bloque;
-        switch (c) {
-            case 'F':
-                bloque = new Bloque(posicion, TipoBloque.OPACO_FIJO.esfijo(), TipoBloque.OPACO_FIJO.getComportamiento(),'F' );
-                break;
-            case 'B':
-                bloque = new Bloque(posicion, TipoBloque.OPACO_MOVIL.esfijo(), TipoBloque.OPACO_MOVIL.getComportamiento(),'B' );
-                break;
-            case 'R':
-                bloque = new Bloque(posicion, TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento(),'R' );
-                break;
-            case 'G':
-                bloque = new Bloque(posicion, TipoBloque.VIDRIO.esfijo(), TipoBloque.VIDRIO.getComportamiento(),'G' );
-                break;
-            case 'C':
-                bloque = new Bloque(posicion, TipoBloque.CRISTAL.esfijo(), TipoBloque.CRISTAL.getComportamiento(),'C' );
-                break;
-            default: return;
-        }
+        Bloque bloque = switch (c) {
+            case 'F' -> new Bloque(posicion, TipoBloque.OPACO_FIJO.esfijo(), TipoBloque.OPACO_FIJO.getComportamiento(),'F' );
+            case 'B' -> new Bloque(posicion, TipoBloque.OPACO_MOVIL.esfijo(), TipoBloque.OPACO_MOVIL.getComportamiento(),'B' );
+            case 'R' -> new Bloque(posicion, TipoBloque.ESPEJO.esfijo(), TipoBloque.ESPEJO.getComportamiento(),'R' );
+            case 'G' -> new Bloque(posicion, TipoBloque.VIDRIO.esfijo(), TipoBloque.VIDRIO.getComportamiento(),'G' );
+            case 'C' -> new Bloque(posicion, TipoBloque.CRISTAL.esfijo(), TipoBloque.CRISTAL.getComportamiento(),'C' );
+            default -> throw new IllegalStateException("Unexpected value: " + c);
+        };
         nivel.agregarBloque(bloque);
         nivel.agregarCelda(new Celda(posicion.clonar(), true));
     }

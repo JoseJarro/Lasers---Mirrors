@@ -31,7 +31,6 @@ public class JuegoView extends Group {
             int idx = listaNiveles.getSelectionModel().getSelectedIndex();
             if (idx >= 0) {
                 String elemento = listaNiveles.getItems().get(idx) + ".dat";
-                System.out.println(elemento);
                 juego.cambiarNivel(elemento);
                 var nuevoNivel = crearGrilla(juego);
                 cajaJuego.getChildren().setAll(nuevoNivel);

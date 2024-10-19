@@ -76,4 +76,18 @@ sencillo para implementar el laser.
 
 3-SRP, La clase Nivel tiene muhcos metodos publicos.
 
+/*********************************************************************************************************************/
+/                                                 CAMBIOS REENTREGA                                                   /
+/*********************************************************************************************************************/
 
+* Se aplicó el uso de constantes a los valores de las direcciones. A cada dirección se le dio un nombre y facilita
+ el cambio de su valor a todo el proyecto.
+
+* Se aplicó un enum para las caras de los bloques. Hicimos el uso del enum porque es una manera de crear variables con
+el propósito de distinguirse entre sí mismas, sin necesidad de agregar valores a diferencia de las direcciones porque
+para ellas se necesitó reutilizar valores.
+
+* Agregamos el LevelLoader. La clase se encargará de leer el archivo y con la clase verificador verá si es posible
+generar el nivel. También observamos que el verificador no necesariamente debe estar en la clase Nivel, sino que es algo
+utilizado unicamente
+durante la generación del mapa por lo que lo vimos más conveniente trasladarlo a LevelLoader.

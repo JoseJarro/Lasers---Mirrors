@@ -22,8 +22,7 @@ public class CustomVector {
     }
 
     public void moverDireccion() {
-        Coordenada posicion = this.getPosicion();
-        switch (this.getDireccion()) {
+        switch (direccion) {
             case Direccion.SURESTE:
                 posicion.setPosX(posicion.getPosX() + 1);
                 posicion.setPosY(posicion.getPosY() + 1);

@@ -2,13 +2,12 @@ package lasers;
 
 public class Juego {
     String nivelInicial = "level1.dat";
-    private boolean estado;
     private Nivel nivel;
-    private final VerificadorNivel verificador = new VerificadorNivel();
 
 
     public Juego(){
-        nivel = new Nivel(nivelInicial, verificador);
+        var cargadorNivel = new LevelLoader(nivelInicial, new VerificadorNivel());
+        nivel = new Nivel(cargadorNivel);
     }
 
     public void validoMoverBloque(Coordenada posInicial ,Coordenada posFinal){
@@ -35,7 +34,8 @@ public class Juego {
     }
 
     public void cambiarNivel(String nivel){
-        this.nivel = new Nivel(nivel, verificador);
+        var cargadorNivel = new LevelLoader(nivel, new VerificadorNivel());
+        this.nivel = new Nivel(cargadorNivel);
     }
 
     public boolean juegoTerminado(){

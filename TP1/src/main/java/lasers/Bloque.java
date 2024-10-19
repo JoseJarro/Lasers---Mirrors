@@ -26,53 +26,54 @@ public class Bloque {
         return fijo;
     }
 
-    private Integer obtenerCaraColisionada(Vector2D padre) {
-        int cara = -1;
+    private CaraBloque obtenerCaraColisionada(CustomVector padre) {
+        CaraBloque cara = CaraBloque.NO_ENCONTRADO;
         int posBloqueX = posicion.getPosX();
         int posBloqueY = posicion.getPosY();
 
         if (padre.getPosicion().getPosY() == posBloqueY){
             if (padre.getPosicion().getPosX() == posBloqueX - 1) {
-                cara = 1;
+                cara = CaraBloque.IZQUIERDA;
             }else if (padre.getPosicion().getPosX() == posBloqueX + 1) {
-                cara = 3;
+                cara = CaraBloque.DERECHA;
             }
         }
         else if (padre.getPosicion().getPosX() == posBloqueX){
             if (padre.getPosicion().getPosY() == posBloqueY - 1){
-                cara = 4;
+                cara = CaraBloque.ARRIBA;
             }else if (padre.getPosicion().getPosY() == posBloqueY + 1) {
-                cara = 2;
+                cara = CaraBloque.ABAJO;
             }
         }
         return cara;
     }
 
-    public Vector2D[] comportamientosBloque(Vector2D v){
-        int cara = obtenerCaraColisionada(v);
+    public CustomVector[] comportamientosBloque(CustomVector v){
+        CaraBloque cara = obtenerCaraColisionada(v);
         return this.comportamientoBloque.comportamientoBloque(v,cara);
     }
 
-    public boolean colisionaLaser(Vector2D v) {
-        int cara = obtenerCaraColisionada(v);
+    public boolean colisionaLaser(CustomVector v) {
+        CaraBloque cara = obtenerCaraColisionada(v);
+        var direccion = v.getDireccion();
         switch (cara){
-            case 1:
-                if (v.getDireccion().equals("SE") || v.getDireccion().equals("NE")) {
+            case IZQUIERDA:
+                if (direccion.equals(Direccion.SURESTE) || direccion.equals(Direccion.NORESTE)) {
                     return true;
                 }
                 break;
-            case 2:
-                if (v.getDireccion().equals("NE") || v.getDireccion().equals("NW")) {
+            case ABAJO:
+                if (direccion.equals(Direccion.NORESTE) || direccion.equals(Direccion.NOROESTE)) {
                     return true;
                 }
                 break;
-            case 3:
-                if (v.getDireccion().equals("NW") || v.getDireccion().equals("SW")) {
+            case DERECHA:
+                if (direccion.equals(Direccion.NOROESTE) || direccion.equals(Direccion.SUROESTE)) {
                     return true;
                 }
                 break;
-            case 4:
-                if (v.getDireccion().equals("SE") || v.getDireccion().equals("SW")) {
+            case ARRIBA:
+                if (direccion.equals(Direccion.SURESTE) || direccion.equals(Direccion.SUROESTE)) {
                     return true;
                 }
                 break;

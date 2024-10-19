@@ -13,7 +13,6 @@ public class VerificadorNivel {
         if (nivel.fueraDimension(posicion)) {
             return false;
         }
-        if (posicion.getPosX() % 2 == 0 && posicion.getPosY() % 2 == 0) {}
         return switch (parametros[0]) {
             case "G" -> true;
             case "E" -> validarDireccion(parametros);
@@ -39,10 +38,7 @@ public class VerificadorNivel {
     private Boolean validarDireccion(String[] parametros) {
         var direccion = parametros[3];
         return switch (direccion) {
-            case "NE" -> true;
-            case "SE" -> true;
-            case "SW" -> true;
-            case "NW" -> true;
+            case Direccion.NORESTE, Direccion.SURESTE, Direccion.SUROESTE, Direccion.NOROESTE -> true;
             default -> false;
         };
     }

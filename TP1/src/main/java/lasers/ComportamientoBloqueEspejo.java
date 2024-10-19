@@ -3,29 +3,29 @@ package lasers;
 public class ComportamientoBloqueEspejo implements ComportamientoBloque {
 
     @Override
-    public Vector2D [] comportamientoBloque(Vector2D padre, int cara) {
-        Vector2D[] arregloVector = new Vector2D[1];
+    public CustomVector[] comportamientoBloque(CustomVector padre, CaraBloque cara) {
+        CustomVector[] arregloVector = new CustomVector[1];
         var direccion ="";
 
         direccion = switch (cara) {
-            case 1 -> switch (padre.getDireccion()) {
-                case "NE" -> "NW";
-                case "SE" -> "SW";
+            case IZQUIERDA -> switch (padre.getDireccion()) {
+                case Direccion.NORESTE -> Direccion.NOROESTE;
+                case Direccion.SURESTE -> Direccion.SUROESTE;
                 default -> direccion;
             };
-            case 2 -> switch (padre.getDireccion()) {
-                case "NE" -> "SE";
-                case "NW" -> "SW";
+            case ABAJO -> switch (padre.getDireccion()) {
+                case Direccion.NORESTE -> Direccion.SURESTE;
+                case Direccion.NOROESTE -> Direccion.SUROESTE;
                 default -> direccion;
             };
-            case 3 -> switch (padre.getDireccion()) {
-                case "SW" -> "SE";
-                case "NW" -> "NE";
+            case DERECHA -> switch (padre.getDireccion()) {
+                case Direccion.SUROESTE -> Direccion.SURESTE;
+                case Direccion.NOROESTE -> Direccion.NORESTE;
                 default -> direccion;
             };
-            case 4 -> switch (padre.getDireccion()) {
-                case "SE" -> "NE";
-                case "SW" -> "NW";
+            case ARRIBA -> switch (padre.getDireccion()) {
+                case Direccion.SURESTE -> Direccion.NORESTE;
+                case Direccion.SUROESTE -> Direccion.NOROESTE;
                 default -> direccion;
             };
             default -> "";
